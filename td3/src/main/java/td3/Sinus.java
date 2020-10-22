@@ -1,13 +1,14 @@
 package td3;
 
-public class Cosinus extends OperationUnaire {
-	public Cosinus(ExpressionArithmetique op) {
+public class Sinus extends OperationUnaire {
+
+	public Sinus(ExpressionArithmetique op) {
 		super(op);
 	}
 
 	@Override
 	public double calculer() {
-		return Math.cos(this.operande.calculer());
+		return Math.sin(this.operande.calculer());
 	}
 
 	@Override
@@ -22,11 +23,11 @@ public class Cosinus extends OperationUnaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle op) {
-		return new Cosinus(op.simplifier());
+		return new Sinus(op.simplifier());
 	}
 
 	@Override
 	public String toString() {
-		return "cos(" + this.operande + ")";
+		return "sin(" + this.operande + ")";
 	}
 }

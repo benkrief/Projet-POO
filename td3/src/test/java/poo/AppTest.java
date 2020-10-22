@@ -9,8 +9,10 @@ import td3.ConstanteRationnelle;
 import td3.Cosinus;
 import td3.Division;
 import td3.ExpressionArithmetique;
+import td3.LogarithmeNeperien;
 import td3.Multiplication;
 import td3.RacineCarree;
+import td3.Sinus;
 import td3.Soustraction;
 
 /**
@@ -67,6 +69,8 @@ public class AppTest {
 	@Test
 	public void simplifyUnaryOp() {
 
+		// racine carrée
+
 		ExpressionArithmetique ce = new ConstanteEntiere(75);
 		ExpressionArithmetique racineCE = new RacineCarree(ce);
 
@@ -75,16 +79,42 @@ public class AppTest {
 		ExpressionArithmetique cr = new ConstanteRationnelle(9, 2);
 		ExpressionArithmetique racineCR = new RacineCarree(cr);
 
-		assertEquals("((3 * sqrt(1)) / (1 * sqrt(2)))", racineCR.simplifier().toString());
+		assertEquals("(3 / sqrt(2))", racineCR.simplifier().toString());
+
+		// cosinus
 
 		ExpressionArithmetique ce2 = new ConstanteEntiere(275);
 		ExpressionArithmetique cosCE = new Cosinus(ce2);
 
-		assertEquals("cos(4)", cosCE.simplifier().toString());
+		assertEquals("cos(275)", cosCE.simplifier().toString());
 
 		ExpressionArithmetique cr2 = new ConstanteRationnelle(333, 18);
 		ExpressionArithmetique cosCR = new Cosinus(cr2);
 
 		assertEquals("cos((37/2))", cosCR.simplifier().toString());
+
+		// sinus
+
+		ExpressionArithmetique ce3 = new ConstanteEntiere(23);
+		ExpressionArithmetique sinCE = new Sinus(ce3);
+
+		assertEquals("sin(23)", sinCE.simplifier().toString());
+
+		ExpressionArithmetique cr3 = new ConstanteRationnelle(1234, 444);
+		ExpressionArithmetique sinCR = new Sinus(cr3);
+
+		assertEquals("sin((617/222))", sinCR.simplifier().toString());
+
+		// logarithme népérien
+
+		ExpressionArithmetique ce4 = new ConstanteEntiere(8);
+		ExpressionArithmetique lnCE = new LogarithmeNeperien(ce4);
+
+		assertEquals("(3 * ln(2))", lnCE.simplifier().toString());
+
+		ExpressionArithmetique cr4 = new ConstanteRationnelle(6, 7);
+		ExpressionArithmetique lnCR = new LogarithmeNeperien(cr4);
+
+		assertEquals("(ln(6) - ln(7))", lnCR.simplifier().toString());
 	}
 }

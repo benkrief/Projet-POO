@@ -47,6 +47,14 @@ public class RacineCarree extends OperationUnaire {
 			}
 		}
 
+		if(entierSousRacine == 1) {
+			return new ConstanteEntiere(entierHorsRacine);
+		}
+
+		if(entierHorsRacine == 1) {
+			return new RacineCarree(new ConstanteEntiere(entierSousRacine));
+		}
+
 		return new Multiplication(new ConstanteEntiere(entierHorsRacine), 
 				new RacineCarree(new ConstanteEntiere(entierSousRacine)));
 	}
