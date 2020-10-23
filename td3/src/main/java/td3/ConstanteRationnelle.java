@@ -19,7 +19,7 @@ public final class ConstanteRationnelle implements ExpressionArithmetique {
 
 	@Override
 	public double calculer() {
-		return this.numerateur / this.denominateur;
+		return (double)this.numerateur / this.denominateur;
 	}
 
 	@Override
