@@ -57,10 +57,15 @@ public class AppTest {
 		ExpressionArithmetique cr = new ConstanteRationnelle(3, 4);
 
 		ExpressionArithmetique plus = new Addition(ce, cr);
-		assertEquals(1+3.0/4, plus.calculer(), 0.0001);
+		assertEquals(1.7500, plus.calculer(), 0.0001);
 
+		// calcul avec π
 		ExpressionArithmetique pluspi = new Addition(ce, ExpressionArithmetique.PI);
-		assertEquals(1+3.1415, pluspi.calculer(), 0.0001);
+		assertEquals(4.1416, pluspi.calculer(), 0.0001);
+
+		// calcul avec e
+		ExpressionArithmetique plusexp = new Addition(ce, ExpressionArithmetique.E);
+		assertEquals(3.7183, plusexp.calculer(), 0.0001);
 	}
 
 	@Test
