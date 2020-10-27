@@ -1,5 +1,7 @@
 package td3;
 
+import java.util.Map;
+
 public abstract class OperationUnaire implements ExpressionArithmetique {
 	protected ExpressionArithmetique operande;
 
@@ -31,5 +33,20 @@ public abstract class OperationUnaire implements ExpressionArithmetique {
 		}
 
 		return res;
+	}
+
+	@Override
+	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
+
+		this.operande = this.operande.simplifier();
+
+		for(Map.Entry<ExpressionArithmetique, ExpressionArithmetique> e : affectations.entrySet()){
+
+			if(this.operande.equals(e.getKey())) {
+				this.operande = e.getValue();
+			}
+		}
+
+		return this;
 	}
 }

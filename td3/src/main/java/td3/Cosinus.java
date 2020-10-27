@@ -26,6 +26,17 @@ public class Cosinus extends OperationUnaire {
 	}
 
 	@Override
+	public boolean equals(ExpressionArithmetique ea) {
+		if(ea instanceof Cosinus) {
+			if(((Cosinus) ea).operande.equals(this.operande)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		return "cos(" + this.operande + ")";
 	}

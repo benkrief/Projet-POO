@@ -1,5 +1,7 @@
 package td3;
 
+import java.util.Map;
+
 public final class ConstanteEntiere implements ExpressionArithmetique {
 	private final int entier;
 
@@ -13,12 +15,28 @@ public final class ConstanteEntiere implements ExpressionArithmetique {
 
 	@Override
 	public double calculer() {
-		return this.getEntier();
+		return this.entier;
 	}
 
 	@Override
 	public ExpressionArithmetique simplifier() {
 		return this;
+	}
+
+	@Override
+	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
+		return this;
+	}
+
+	@Override
+	public boolean equals(ExpressionArithmetique ea) {
+		if(ea instanceof ConstanteEntiere) {
+			if(((ConstanteEntiere) ea).getEntier() == this.entier) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Override

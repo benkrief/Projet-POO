@@ -39,6 +39,18 @@ public class Multiplication extends OperationBinaire {
 	}
 
 	@Override
+	public boolean equals(ExpressionArithmetique ea) {
+		if(ea instanceof Multiplication) {
+			if(((Multiplication) ea).left.equals(this.left)
+					&& ((Multiplication) ea).right.equals(this.right)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		return "(" + this.left + " * " + this.right + ")";
 	}

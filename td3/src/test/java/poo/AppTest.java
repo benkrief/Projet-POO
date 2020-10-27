@@ -6,106 +6,118 @@ import org.junit.Test;
 import td3.Addition;
 import td3.ConstanteEntiere;
 import td3.ConstanteRationnelle;
+import td3.ConstanteSymbolique;
 import td3.Cosinus;
 import td3.Division;
 import td3.ExpressionArithmetique;
 import td3.LogarithmeNeperien;
 import td3.Multiplication;
+import td3.Puissance;
 import td3.RacineCarree;
 import td3.Sinus;
 import td3.Soustraction;
-import td3.VariableSymboliqueEntiere;
-import td3.VariableSymboliqueRationnelle;
+import td3.VariableSymbolique;
 
 /**
  * Unit test for simple App.
  */
 public class AppTest {
 
+	/**
+	 * Question 1
+	 * 
+	 * Constantes entières et rationnelles
+	 */
 	@Test
-	public void simpleSum() {
+	public void constants() {
 
-		ExpressionArithmetique neuf = new ConstanteEntiere(9);
-		ExpressionArithmetique deux = new ConstanteEntiere(2);
-		ExpressionArithmetique racine = new Addition(neuf, deux);
-
-		assertEquals(11, ((ConstanteEntiere) racine.simplifier()).getEntier());
-	}
-	
-	@Test
-	public void variablesSum() {
-
-		ExpressionArithmetique ce = new ConstanteEntiere(3);
-		ExpressionArithmetique cr = new ConstanteRationnelle(1, 5);
-
-		ExpressionArithmetique x = new VariableSymboliqueEntiere('x');
-		((VariableSymboliqueEntiere) x).setConstanteEntiere((ConstanteEntiere) ce);
-
-		ExpressionArithmetique y = new VariableSymboliqueRationnelle('y');
-		((VariableSymboliqueRationnelle) y).setConstanteRationnelle((ConstanteRationnelle) cr);
-
-		ExpressionArithmetique plus = new Addition(x, y);
-
-		assertEquals("(x + y)", plus.simplifier().toString());
-		assertEquals(3+1.0/5, plus.calculer(), 0.0001);
-	}
-	
-	@Test
-	public void constantesSymboliquesSum() {
-
-		ExpressionArithmetique ce = new ConstanteEntiere(1);
-		ExpressionArithmetique cr = new ConstanteRationnelle(3, 4);
-
-		ExpressionArithmetique plus = new Addition(ce, cr);
-		assertEquals(1.7500, plus.calculer(), 0.0001);
-
-		// calcul avec π
-		ExpressionArithmetique pluspi = new Addition(ce, ExpressionArithmetique.PI);
-		assertEquals(4.1416, pluspi.calculer(), 0.0001);
-
-		// calcul avec e
-		ExpressionArithmetique plusexp = new Addition(ce, ExpressionArithmetique.E);
-		assertEquals(3.7183, plusexp.calculer(), 0.0001);
-	}
-
-	@Test
-	public void simplifyBinaryOp() {
-
-		ExpressionArithmetique neuf = new ConstanteEntiere(9);
-		ExpressionArithmetique deux = new ConstanteEntiere(2);
 		ExpressionArithmetique trois = new ConstanteEntiere(3);
-		ExpressionArithmetique cr = new ConstanteRationnelle(1, 17);
+
+		assertEquals(3, ((ConstanteEntiere) trois.simplifier()).getEntier());
+		assertEquals(3, trois.calculer(), 0.0001);
+
+		ExpressionArithmetique uncinquieme = new ConstanteRationnelle(1, 5);
+
+		assertEquals(1, ((ConstanteRationnelle) uncinquieme.simplifier()).getNumerateur());
+		assertEquals(5, ((ConstanteRationnelle) uncinquieme.simplifier()).getDenominateur());
+		assertEquals(0.2, uncinquieme.calculer(), 0.0001);
+	}
+
+	/**
+	 * Question 2
+	 * 
+	 * Variables symboliques
+	 */
+	@Test
+	public void variables() {
+
+		ExpressionArithmetique ce = new ConstanteEntiere(8);
+		ExpressionArithmetique x = new VariableSymbolique(ce);
+
+		assertEquals(8, ((ConstanteEntiere) x.simplifier()).getEntier());
+		assertEquals(8, x.calculer(), 0.0001);
+
+		ExpressionArithmetique cr = new ConstanteRationnelle(2, 4);
+		ExpressionArithmetique y = new VariableSymbolique(cr);
+
+		assertEquals(1, ((ConstanteRationnelle) y.simplifier()).getNumerateur());
+		assertEquals(2, ((ConstanteRationnelle) y.simplifier()).getDenominateur());
+		assertEquals(0.5, y.calculer(), 0.0001);
+	}
+
+	/**
+	 * Question 3
+	 * 
+	 * Opérateurs binaires (+, -, *, /, ^)
+	 */
+	@Test
+	public void binaryOp() {
+
+		// addition
+
+		ExpressionArithmetique neuf = new ConstanteEntiere(9);
+		ExpressionArithmetique deux = new ConstanteEntiere(2);
 
 		ExpressionArithmetique plus = new Addition(neuf, deux);
-		ExpressionArithmetique minus = new Soustraction(trois, cr);
+
+		// soustraction
+
+		ExpressionArithmetique trois = new ConstanteEntiere(3);
+		ExpressionArithmetique undixseptieme = new ConstanteRationnelle(1, 17);
+
+		ExpressionArithmetique minus = new Soustraction(trois, undixseptieme);
+
+		// multiplication
+
 		ExpressionArithmetique times = new Multiplication(plus, minus);
+
+		// division
+
 		ExpressionArithmetique divided = new Division(times, neuf);
 
 		assertEquals(550, ((ConstanteRationnelle) divided.simplifier()).getNumerateur());
 		assertEquals(153, ((ConstanteRationnelle) divided.simplifier()).getDenominateur());
-	}
-
-	@Test
-	public void calculateBinaryOp() {
-
-		ExpressionArithmetique neuf = new ConstanteEntiere(9);
-		ExpressionArithmetique deux = new ConstanteEntiere(2);
-		ExpressionArithmetique trois = new ConstanteEntiere(3);
-		ExpressionArithmetique cr = new ConstanteRationnelle(1, 17);
-
-		ExpressionArithmetique plus = new Addition(neuf, deux);
-		ExpressionArithmetique minus = new Soustraction(trois, cr);
-		ExpressionArithmetique times = new Multiplication(plus, minus);
-		ExpressionArithmetique divided = new Division(times, neuf);
-
-		ExpressionArithmetique result = new ConstanteRationnelle(550, 153);
-
 		assertEquals((11*(3-1.0/17))/9, divided.calculer(), 0.0001);
-		assertEquals(550.0/153, result.calculer(), 0.0001);
+
+		// puissance
+
+		ExpressionArithmetique pow = new Puissance(deux, trois);
+
+		assertEquals(8, ((ConstanteEntiere) pow.simplifier()).getEntier());
+		assertEquals(8, pow.calculer(), 0.0001);
 	}
-	
+
+	/**
+	 * Question 3 (suite)
+	 * 
+	 * Opérateurs unaires (racine carree, cos, sin, ln)
+	 * 
+	 * Question 9
+	 * 
+	 * Afficher une expression arithmetique (toString())
+	 */
 	@Test
-	public void simplifyUnaryOp() {
+	public void unaryOp() {
 
 		// racine carrée
 
@@ -154,5 +166,60 @@ public class AppTest {
 		ExpressionArithmetique lnCR = new LogarithmeNeperien(cr4);
 
 		assertEquals("(ln(6) - ln(7))", lnCR.simplifier().toString());
+	}
+
+	/**
+	 * Question 4
+	 * 
+	 * Constantes symboliques (π, e)
+	 * 
+	 * Question 6
+	 * 
+	 * Calculer une approximation à 10^-4 près
+	 */
+	@Test
+	public void symbolicConstants() {
+
+		ExpressionArithmetique ce = new ConstanteEntiere(1);
+
+		// calcul avec constante rationnelle
+
+		ExpressionArithmetique cr = new ConstanteRationnelle(3, 4);
+		ExpressionArithmetique plus = new Addition(ce, cr);
+
+		assertEquals(1.7500, plus.calculer(), 0.0001);
+
+		// calcul avec π
+
+		ExpressionArithmetique pluspi = new Addition(ce, ExpressionArithmetique.PI);
+
+		assertEquals(4.1416, pluspi.calculer(), 0.0001);
+
+		// calcul avec e
+
+		ExpressionArithmetique plusexp = new Addition(ce, ExpressionArithmetique.E);
+
+		assertEquals(3.7183, plusexp.calculer(), 0.0001);
+	}
+
+	/**
+	 * Question 5
+	 * 
+	 * Simplifier une expression sous forme standard
+	 */
+	@Test
+	public void simplifyStandardExpression() {
+
+		ExpressionArithmetique unquart = new ConstanteRationnelle(1, 4);
+		ExpressionArithmetique troisquart = new ConstanteRationnelle(3, 4);
+
+		ExpressionArithmetique plus = new Addition(unquart, troisquart);
+
+		ExpressionArithmetique un = new ConstanteEntiere(1);
+		ExpressionArithmetique x = new VariableSymbolique(un);
+
+		ExpressionArithmetique plusX = new Addition(plus, x);
+
+		assertEquals("(1 + x)", plusX.simplifier().toString());
 	}
 }

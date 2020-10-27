@@ -20,6 +20,10 @@ public class LogarithmeNeperien extends OperationUnaire {
 	protected ExpressionArithmetique simplifie(ConstanteEntiere op) {
 		int n = op.getEntier();
 
+		if(n == 0) {
+			throw new IllegalArgumentException("La valeur de la constante entière doit être strictement supérieure à 0 !");
+		}
+
 		if(n == 1) {
 			return new ConstanteEntiere(0);
 		}
@@ -48,6 +52,17 @@ public class LogarithmeNeperien extends OperationUnaire {
 
 		return new Soustraction(new LogarithmeNeperien(new ConstanteEntiere(num)), 
 				new LogarithmeNeperien(new ConstanteEntiere(denom)));
+	}
+
+	@Override
+	public boolean equals(ExpressionArithmetique ea) {
+		if(ea instanceof LogarithmeNeperien) {
+			if(((LogarithmeNeperien) ea).operande.equals(this.operande)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Override

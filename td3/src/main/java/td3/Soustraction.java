@@ -41,6 +41,18 @@ public class Soustraction extends OperationBinaire {
 	}
 
 	@Override
+	public boolean equals(ExpressionArithmetique ea) {
+		if(ea instanceof Soustraction) {
+			if(((Soustraction) ea).left.equals(this.left)
+					&& ((Soustraction) ea).right.equals(this.right)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		return "(" + this.left + " - " + this.right + ")";
 	}

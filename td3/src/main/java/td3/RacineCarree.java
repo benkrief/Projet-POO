@@ -83,6 +83,17 @@ public class RacineCarree extends OperationUnaire {
 	}
 
 	@Override
+	public boolean equals(ExpressionArithmetique ea) {
+		if(ea instanceof RacineCarree) {
+			if(((RacineCarree) ea).operande.equals(this.operande)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		return "sqrt(" + this.operande + ")";
 	}

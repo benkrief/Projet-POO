@@ -1,5 +1,7 @@
 package td3;
 
+import java.util.Map;
+
 public class ConstanteSymbolique implements ExpressionArithmetique {
 	private final char symbole;
 	private final double valeur;
@@ -28,7 +30,24 @@ public class ConstanteSymbolique implements ExpressionArithmetique {
 	}
 
 	@Override
+	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
+		return this;
+	}
+
+	@Override
+	public boolean equals(ExpressionArithmetique ea) {
+		if(ea instanceof ConstanteSymbolique) {
+			if(((ConstanteSymbolique) ea).getSymbole() == this.symbole
+					&& ((ConstanteSymbolique) ea).getValeur() == this.valeur) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
 	public String toString() {
-		return "" + this.symbole;
+		return Character.toString(this.symbole);
 	}
 }

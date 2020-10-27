@@ -27,6 +27,17 @@ public class Sinus extends OperationUnaire {
 	}
 
 	@Override
+	public boolean equals(ExpressionArithmetique ea) {
+		if(ea instanceof Sinus) {
+			if(((Sinus) ea).operande.equals(this.operande)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		return "sin(" + this.operande + ")";
 	}

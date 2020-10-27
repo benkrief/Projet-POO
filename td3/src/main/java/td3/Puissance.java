@@ -12,8 +12,8 @@ public class Puissance extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteEntiere droite) {
-		return new ConstanteRationnelle(gauche.getNumerateur() ^ droite.getEntier(), 
-				gauche.getDenominateur() ^ droite.getEntier()).simplifier();
+		return new ConstanteRationnelle((int) Math.pow(gauche.getNumerateur(), droite.getEntier()), 
+				(int) Math.pow(gauche.getDenominateur(), droite.getEntier())).simplifier();
 	}
 
 	@Override
@@ -23,7 +23,7 @@ public class Puissance extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteEntiere droite) {
-		return new ConstanteEntiere(gauche.getEntier() ^ droite.getEntier()).simplifier();
+		return new ConstanteEntiere((int) Math.pow(gauche.getEntier(), droite.getEntier())).simplifier();
 	}
 
 	@Override
@@ -34,5 +34,22 @@ public class Puissance extends OperationBinaire {
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
 		return this;
+	}
+
+	@Override
+	public boolean equals(ExpressionArithmetique ea) {
+		if(ea instanceof Puissance) {
+			if(((Puissance) ea).left.equals(this.left)
+					&& ((Puissance) ea).right.equals(this.right)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public String toString() {
+		return "(" + this.left + "^" + this.right + ")";
 	}
 }

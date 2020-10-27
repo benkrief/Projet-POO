@@ -1,5 +1,7 @@
 package td3;
 
+import java.util.Map;
+
 public abstract class OperationBinaire implements ExpressionArithmetique {
 	protected ExpressionArithmetique left;
 	protected ExpressionArithmetique right;
@@ -56,5 +58,24 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 		}
 
 		return res;
+	}
+
+	@Override
+	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
+
+		this.left = this.left.simplifier();
+		this.right = this.right.simplifier();
+
+		for(Map.Entry<ExpressionArithmetique, ExpressionArithmetique> e : affectations.entrySet()){
+
+			if(this.left.equals(e.getKey())) {
+				this.left = e.getValue();
+
+			} else if(this.right.equals(e.getKey())) {
+				this.right = e.getValue();
+			}
+		}
+
+		return this;
 	}
 }

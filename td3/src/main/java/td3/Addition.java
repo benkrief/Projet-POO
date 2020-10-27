@@ -40,6 +40,18 @@ public class Addition extends OperationBinaire {
 	}
 
 	@Override
+	public boolean equals(ExpressionArithmetique ea) {
+		if(ea instanceof Addition) {
+			if(((Addition) ea).left.equals(this.left)
+					&& ((Addition) ea).right.equals(this.right)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
 	public String toString() {
 		return "(" + this.left + " + " + this.right + ")";
 	}

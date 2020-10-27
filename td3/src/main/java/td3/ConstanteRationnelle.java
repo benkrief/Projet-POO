@@ -1,5 +1,7 @@
 package td3;
 
+import java.util.Map;
+
 public final class ConstanteRationnelle implements ExpressionArithmetique {
 	private final int numerateur;
 	private final int denominateur;
@@ -41,6 +43,23 @@ public final class ConstanteRationnelle implements ExpressionArithmetique {
 		} else {
 			return gcd(b, a % b);
 		}
+	}
+
+	@Override
+	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
+		return this;
+	}
+
+	@Override
+	public boolean equals(ExpressionArithmetique ea) {
+		if(ea instanceof ConstanteRationnelle) {
+			if(((ConstanteRationnelle) ea).getNumerateur() == this.numerateur
+					&& ((ConstanteRationnelle) ea).getDenominateur() == this.denominateur) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Override
