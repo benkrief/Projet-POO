@@ -41,14 +41,9 @@ public class Division extends OperationBinaire {
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
-		if(ea instanceof Division) {
-			if(((Division) ea).left.equals(this.left)
-					&& ((Division) ea).right.equals(this.right)) {
-				return true;
-			}
-		}
-
-		return false;
+		return ea instanceof Division 
+				&& ((Division) ea.simplifier()).left.equals(((Division) this.simplifier()).left) 
+				&& ((Division) ea.simplifier()).right.equals(((Division) this.simplifier()).right);
 	}
 
 	@Override

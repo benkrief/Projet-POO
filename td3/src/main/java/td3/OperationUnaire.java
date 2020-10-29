@@ -38,15 +38,14 @@ public abstract class OperationUnaire implements ExpressionArithmetique {
 	@Override
 	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
 
-		this.operande = this.operande.simplifier();
-
 		for(Map.Entry<ExpressionArithmetique, ExpressionArithmetique> e : affectations.entrySet()){
 
 			if(this.operande.equals(e.getKey())) {
-				this.operande = e.getValue();
+				((VariableSymbolique) this.operande).setConstante(e.getValue());
+				this.operande = this.operande.simplifier();
 			}
 		}
 
-		return this;
+		return this.simplifier();
 	}
 }

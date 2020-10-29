@@ -38,14 +38,9 @@ public class Puissance extends OperationBinaire {
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
-		if(ea instanceof Puissance) {
-			if(((Puissance) ea).left.equals(this.left)
-					&& ((Puissance) ea).right.equals(this.right)) {
-				return true;
-			}
-		}
-
-		return false;
+		return ea instanceof Puissance 
+				&& ((Puissance) ea.simplifier()).left.equals(((Puissance) this.simplifier()).left) 
+				&& ((Puissance) ea.simplifier()).right.equals(((Puissance) this.simplifier()).right);
 	}
 
 	@Override

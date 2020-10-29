@@ -84,13 +84,8 @@ public class RacineCarree extends OperationUnaire {
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
-		if(ea instanceof RacineCarree) {
-			if(((RacineCarree) ea).operande.equals(this.operande)) {
-				return true;
-			}
-		}
-
-		return false;
+		return ea instanceof RacineCarree 
+				&& ((RacineCarree) ea.simplifier()).operande.equals(((RacineCarree) this.simplifier()).operande);
 	}
 
 	@Override

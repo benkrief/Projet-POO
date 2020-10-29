@@ -3,14 +3,23 @@ package td3;
 import java.util.Map;
 
 public class VariableSymbolique implements ExpressionArithmetique {
+	private final char symbole;
 	private ExpressionArithmetique ea;
 
-	public VariableSymbolique(ExpressionArithmetique ea) {
-		this.ea = ea;
+	public VariableSymbolique(char symbole) {
+		this.symbole = symbole;
+	}
+
+	public char getSymbole() {
+		return this.symbole;
 	}
 
 	public ExpressionArithmetique getConstante() {
 		return this.ea;
+	}
+
+	public void setConstante(ExpressionArithmetique ea) {
+		this.ea = ea;
 	}
 
 	@Override
@@ -20,7 +29,11 @@ public class VariableSymbolique implements ExpressionArithmetique {
 
 	@Override
 	public ExpressionArithmetique simplifier() {
-		return this.ea.simplifier();
+		if(this.ea != null) {
+			return this.ea.simplifier();
+		}
+
+		return this;
 	}
 
 	@Override
@@ -30,17 +43,16 @@ public class VariableSymbolique implements ExpressionArithmetique {
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
-		if(ea instanceof VariableSymbolique) {
-			if(((VariableSymbolique) ea).getConstante() == this.ea) {
-				return true;
-			}
-		}
-
-		return false;
+		return ea instanceof VariableSymbolique 
+				&& ((VariableSymbolique) ea).getSymbole() == this.symbole;
 	}
 
 	@Override
 	public String toString() {
-		return this.ea.toString();
+		if(this.ea != null) {
+			return this.ea.toString();
+		}
+
+		return Character.toString(this.symbole);
 	}
 }

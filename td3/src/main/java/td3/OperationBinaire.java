@@ -63,19 +63,18 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 	@Override
 	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
 
-		this.left = this.left.simplifier();
-		this.right = this.right.simplifier();
-
 		for(Map.Entry<ExpressionArithmetique, ExpressionArithmetique> e : affectations.entrySet()){
 
 			if(this.left.equals(e.getKey())) {
-				this.left = e.getValue();
+				((VariableSymbolique) this.left).setConstante(e.getValue());
+				this.left = this.left.simplifier();
 
 			} else if(this.right.equals(e.getKey())) {
-				this.right = e.getValue();
+				((VariableSymbolique) this.right).setConstante(e.getValue());
+				this.right = this.right.simplifier();
 			}
 		}
 
-		return this;
+		return this.simplifier();
 	}
 }

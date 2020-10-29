@@ -1,12 +1,15 @@
 package poo;
 
 import static org.junit.Assert.assertEquals;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Test;
 
 import td3.Addition;
 import td3.ConstanteEntiere;
 import td3.ConstanteRationnelle;
-import td3.ConstanteSymbolique;
 import td3.Cosinus;
 import td3.Division;
 import td3.ExpressionArithmetique;
@@ -51,18 +54,13 @@ public class AppTest {
 	@Test
 	public void variables() {
 
-		ExpressionArithmetique ce = new ConstanteEntiere(8);
-		ExpressionArithmetique x = new VariableSymbolique(ce);
+		ExpressionArithmetique x = new VariableSymbolique('x');
 
-		assertEquals(8, ((ConstanteEntiere) x.simplifier()).getEntier());
-		assertEquals(8, x.calculer(), 0.0001);
+		assertEquals('x', ((VariableSymbolique) x.simplifier()).getSymbole());
 
-		ExpressionArithmetique cr = new ConstanteRationnelle(2, 4);
-		ExpressionArithmetique y = new VariableSymbolique(cr);
+		ExpressionArithmetique y = new VariableSymbolique('y');
 
-		assertEquals(1, ((ConstanteRationnelle) y.simplifier()).getNumerateur());
-		assertEquals(2, ((ConstanteRationnelle) y.simplifier()).getDenominateur());
-		assertEquals(0.5, y.calculer(), 0.0001);
+		assertEquals('y', ((VariableSymbolique) y.simplifier()).getSymbole());
 	}
 
 	/**
@@ -215,11 +213,60 @@ public class AppTest {
 
 		ExpressionArithmetique plus = new Addition(unquart, troisquart);
 
-		ExpressionArithmetique un = new ConstanteEntiere(1);
-		ExpressionArithmetique x = new VariableSymbolique(un);
-
+		ExpressionArithmetique x = new VariableSymbolique('x');
 		ExpressionArithmetique plusX = new Addition(plus, x);
 
 		assertEquals("(1 + x)", plusX.simplifier().toString());
+	}
+
+	/**
+	 * Question 7
+	 * 
+	 * S'assurer de l'égalité entre deux expressions arithmetiques
+	 */
+	@Test
+	public void areEquals() {
+
+		// première expression sous forme standard
+
+		ExpressionArithmetique unquart = new ConstanteRationnelle(1, 4);
+		ExpressionArithmetique troisquart = new ConstanteRationnelle(3, 4);
+
+		ExpressionArithmetique plusCR = new Addition(unquart, troisquart);
+
+		ExpressionArithmetique x = new VariableSymbolique('x');
+		ExpressionArithmetique plusX = new Addition(plusCR, x);
+
+		// deuxième expression sous forme standard
+
+		ExpressionArithmetique un = new ConstanteEntiere(1);
+		ExpressionArithmetique plus = new Addition(un, x);
+
+		assertEquals(true, plusX.equals(plus));
+	}
+
+	/**
+	 * Question 8
+	 * 
+	 * Calculer la valeur d'une expression arithmetique contenant des variables symboliques
+	 */
+	@Test
+	public void simplifyWithSymbolicVariables() {
+
+		ExpressionArithmetique y = new VariableSymbolique('y');
+		ExpressionArithmetique un = new ConstanteEntiere(1);
+
+		ExpressionArithmetique plus = new Addition(y, un);
+
+		ExpressionArithmetique x = new VariableSymbolique('x');
+		ExpressionArithmetique divided = new Division(x, plus);
+
+		ExpressionArithmetique plusUn = new Addition(un, divided);
+
+		Map<ExpressionArithmetique, ExpressionArithmetique> affectations = new HashMap<>();
+		affectations.put(x, un);
+		affectations.put(y, un);
+
+		assertEquals("(3/2)", plusUn.simplifier(affectations).toString());
 	}
 }

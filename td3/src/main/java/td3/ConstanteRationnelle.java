@@ -27,6 +27,11 @@ public final class ConstanteRationnelle implements ExpressionArithmetique {
 	@Override
 	public ExpressionArithmetique simplifier() {
 		int pgcd = gcd(this.numerateur, this.denominateur);
+
+		if(this.denominateur / pgcd == 1) {
+			return new ConstanteEntiere(this.numerateur / pgcd);
+		}
+
 		return new ConstanteRationnelle(this.numerateur / pgcd, this.denominateur / pgcd);
 	}
 
@@ -52,14 +57,9 @@ public final class ConstanteRationnelle implements ExpressionArithmetique {
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
-		if(ea instanceof ConstanteRationnelle) {
-			if(((ConstanteRationnelle) ea).getNumerateur() == this.numerateur
-					&& ((ConstanteRationnelle) ea).getDenominateur() == this.denominateur) {
-				return true;
-			}
-		}
-
-		return false;
+		return ea instanceof ConstanteRationnelle 
+				&& ((ConstanteRationnelle) ea.simplifier()).getNumerateur() == ((ConstanteRationnelle) this.simplifier()).numerateur 
+				&& ((ConstanteRationnelle) ea.simplifier()).getDenominateur() == ((ConstanteRationnelle) this.simplifier()).denominateur;
 	}
 
 	@Override

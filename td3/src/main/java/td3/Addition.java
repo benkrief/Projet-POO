@@ -41,14 +41,9 @@ public class Addition extends OperationBinaire {
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
-		if(ea instanceof Addition) {
-			if(((Addition) ea).left.equals(this.left)
-					&& ((Addition) ea).right.equals(this.right)) {
-				return true;
-			}
-		}
-
-		return false;
+		return ea instanceof Addition 
+				&& ((Addition) ea.simplifier()).left.equals(((Addition) this.simplifier()).left) 
+				&& ((Addition) ea.simplifier()).right.equals(((Addition) this.simplifier()).right);
 	}
 
 	@Override

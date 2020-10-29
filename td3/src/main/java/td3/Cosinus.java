@@ -27,13 +27,8 @@ public class Cosinus extends OperationUnaire {
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
-		if(ea instanceof Cosinus) {
-			if(((Cosinus) ea).operande.equals(this.operande)) {
-				return true;
-			}
-		}
-
-		return false;
+		return ea instanceof Cosinus 
+				&& ((Cosinus) ea.simplifier()).operande.equals(((Cosinus) this.simplifier()).operande);
 	}
 
 	@Override

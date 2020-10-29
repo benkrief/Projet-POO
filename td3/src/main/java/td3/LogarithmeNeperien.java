@@ -56,13 +56,8 @@ public class LogarithmeNeperien extends OperationUnaire {
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
-		if(ea instanceof LogarithmeNeperien) {
-			if(((LogarithmeNeperien) ea).operande.equals(this.operande)) {
-				return true;
-			}
-		}
-
-		return false;
+		return ea instanceof LogarithmeNeperien 
+				&& ((LogarithmeNeperien) ea.simplifier()).operande.equals(((LogarithmeNeperien) this.simplifier()).operande);
 	}
 
 	@Override

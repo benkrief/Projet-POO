@@ -36,14 +36,8 @@ public class ConstanteSymbolique implements ExpressionArithmetique {
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
-		if(ea instanceof ConstanteSymbolique) {
-			if(((ConstanteSymbolique) ea).getSymbole() == this.symbole
-					&& ((ConstanteSymbolique) ea).getValeur() == this.valeur) {
-				return true;
-			}
-		}
-
-		return false;
+		return ea instanceof ConstanteSymbolique 
+				&& ((ConstanteSymbolique) ea).getSymbole() == this.symbole;
 	}
 
 	@Override
