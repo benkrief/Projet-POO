@@ -1,5 +1,6 @@
 package td3;
 
+import java.util.Collections;
 import java.util.Map;
 
 public abstract class OperationBinaire implements ExpressionArithmetique {
@@ -23,11 +24,16 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 
 	@Override
 	public ExpressionArithmetique simplifier() {
+		return simplifier(Collections.EMPTY_MAP);
+	}
+
+	@Override
+	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
 
 		ExpressionArithmetique res;
 
-		this.left = this.left.simplifier();
-		this.right = this.right.simplifier();
+		this.left = this.left.simplifier(affectations);
+		this.right = this.right.simplifier(affectations);
 
 		if (this.left instanceof ConstanteEntiere && this.right instanceof ConstanteEntiere) {
 			ConstanteEntiere gauche = (ConstanteEntiere) this.left;
@@ -58,23 +64,5 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 		}
 
 		return res;
-	}
-
-	@Override
-	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
-
-		for(Map.Entry<ExpressionArithmetique, ExpressionArithmetique> e : affectations.entrySet()){
-
-			if(this.left.equals(e.getKey())) {
-				((VariableSymbolique) this.left).setConstante(e.getValue());
-				this.left = this.left.simplifier();
-
-			} else if(this.right.equals(e.getKey())) {
-				((VariableSymbolique) this.right).setConstante(e.getValue());
-				this.right = this.right.simplifier();
-			}
-		}
-
-		return this.simplifier();
 	}
 }
