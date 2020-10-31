@@ -38,7 +38,7 @@ public class VariableSymbolique implements ExpressionArithmetique {
 
 	@Override
 	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
-		return this;
+		return affectations.containsKey(this) ? affectations.get(this) : this;
 	}
 
 	@Override
