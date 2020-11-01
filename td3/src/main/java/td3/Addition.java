@@ -1,6 +1,7 @@
 package td3;
 
 public class Addition extends OperationBinaire {
+	private static final int elementNeutre = 0;
 
 	public Addition(ExpressionArithmetique left, ExpressionArithmetique right) {
 		super(left, right);
@@ -13,6 +14,10 @@ public class Addition extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteEntiere droite) {
+		if(droite.getEntier() == Addition.elementNeutre) {
+			return gauche;
+		}
+
 		return new ConstanteRationnelle(droite.getEntier() * gauche.getDenominateur() + gauche.getNumerateur(), 
 				gauche.getDenominateur()).simplifier();
 	}
@@ -26,12 +31,20 @@ public class Addition extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteEntiere droite) {
+		if(gauche.getEntier() == Addition.elementNeutre) {
+			return droite;
+		}
+
+		if(droite.getEntier() == Addition.elementNeutre) {
+			return gauche;
+		}
+
 		return new ConstanteEntiere(gauche.getEntier() + droite.getEntier()).simplifier();
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteRationnelle droite) {
-		return simplifie(droite, gauche).simplifier();
+		return this.simplifie(droite, gauche).simplifier();
 	}
 
 	@Override

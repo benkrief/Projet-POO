@@ -30,56 +30,39 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 	@Override
 	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
 
-		if(affectations.isEmpty()) {
+		ExpressionArithmetique res;
 
-			ExpressionArithmetique res;
+		this.left = this.left.simplifier(affectations);
+		this.right = this.right.simplifier(affectations);
 
-			this.left = this.left.simplifier();
-			this.right = this.right.simplifier();
+		if (this.left instanceof ConstanteEntiere && this.right instanceof ConstanteEntiere) {
+			ConstanteEntiere gauche = (ConstanteEntiere) this.left;
+			ConstanteEntiere droite = (ConstanteEntiere) this.right;
 
-			if (this.left instanceof ConstanteEntiere && this.right instanceof ConstanteEntiere) {
-				ConstanteEntiere gauche = (ConstanteEntiere) this.left;
-				ConstanteEntiere droite = (ConstanteEntiere) this.right;
+			res = simplifie(gauche, droite);
 
-				res = simplifie(gauche, droite);
+		} else if (this.left instanceof ConstanteRationnelle && this.right instanceof ConstanteRationnelle) {
+			ConstanteRationnelle gauche = (ConstanteRationnelle) this.left;
+			ConstanteRationnelle droite = (ConstanteRationnelle) this.right;
 
-			} else if (this.left instanceof ConstanteRationnelle && this.right instanceof ConstanteRationnelle) {
-				ConstanteRationnelle gauche = (ConstanteRationnelle) this.left;
-				ConstanteRationnelle droite = (ConstanteRationnelle) this.right;
+			res = simplifie(gauche, droite);
 
-				res = simplifie(gauche, droite);
+		} else if (this.left instanceof ConstanteRationnelle && this.right instanceof ConstanteEntiere) {
+			ConstanteRationnelle gauche = (ConstanteRationnelle) this.left;
+			ConstanteEntiere droite = (ConstanteEntiere) this.right;
 
-			} else if (this.left instanceof ConstanteRationnelle && this.right instanceof ConstanteEntiere) {
-				ConstanteRationnelle gauche = (ConstanteRationnelle) this.left;
-				ConstanteEntiere droite = (ConstanteEntiere) this.right;
+			res = simplifie(gauche, droite);
 
-				res = simplifie(gauche, droite);
+		} else if (this.left instanceof ConstanteEntiere && this.right instanceof ConstanteRationnelle) {
+			ConstanteEntiere gauche = (ConstanteEntiere) this.left;
+			ConstanteRationnelle droite = (ConstanteRationnelle) this.right;
 
-			} else if (this.left instanceof ConstanteEntiere && this.right instanceof ConstanteRationnelle) {
-				ConstanteEntiere gauche = (ConstanteEntiere) this.left;
-				ConstanteRationnelle droite = (ConstanteRationnelle) this.right;
+			res = simplifie(gauche, droite);
 
-				res = simplifie(gauche, droite);
-
-			} else {
-				res = this;
-			}
-
-			return res;
+		} else {
+			res = this;
 		}
 
-		for(Map.Entry<ExpressionArithmetique, ExpressionArithmetique> e : affectations.entrySet()){
-
-			if(this.left.equals(e.getKey())) {
-				((VariableSymbolique) this.left).setConstante(e.getValue());
-				this.left = this.left.simplifier(affectations);
-
-			} else if(this.right.equals(e.getKey())) {
-				((VariableSymbolique) this.right).setConstante(e.getValue());
-				this.right = this.right.simplifier(affectations);
-			}
-		}
-
-		return this.simplifier();
+		return res;
 	}
 }

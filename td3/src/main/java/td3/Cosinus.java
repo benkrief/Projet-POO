@@ -17,6 +17,10 @@ public class Cosinus extends OperationUnaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere op) {
+		if(op.getEntier() == 0) {
+			return new ConstanteEntiere(1);
+		}
+
 		return this;
 	}
 

@@ -18,10 +18,6 @@ public class VariableSymbolique implements ExpressionArithmetique {
 		return this.ea;
 	}
 
-	public void setConstante(ExpressionArithmetique ea) {
-		this.ea = ea;
-	}
-
 	@Override
 	public double calculer() {
 		return this.ea.calculer();

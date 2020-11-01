@@ -3,6 +3,8 @@ package td3;
 import java.util.Map;
 
 public final class ConstanteRationnelle implements ExpressionArithmetique {
+	private static final int elementNeutre = 1;
+
 	private final int numerateur;
 	private final int denominateur;
 
@@ -26,9 +28,21 @@ public final class ConstanteRationnelle implements ExpressionArithmetique {
 
 	@Override
 	public ExpressionArithmetique simplifier() {
+		if(this.denominateur == 0) {
+			throw new IllegalArgumentException("La valeur du dénominateur doit être différente de 0 !");
+		}
+
+		if(this.numerateur == 0) {
+			return new ConstanteEntiere(0);
+		}
+
+		if(this.numerateur == this.denominateur) {
+			return new ConstanteEntiere(1);
+		}
+
 		int pgcd = gcd(this.numerateur, this.denominateur);
 
-		if(this.denominateur / pgcd == 1) {
+		if(this.denominateur / pgcd == ConstanteRationnelle.elementNeutre) {
 			return new ConstanteEntiere(this.numerateur / pgcd);
 		}
 

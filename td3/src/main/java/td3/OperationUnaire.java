@@ -24,33 +24,20 @@ public abstract class OperationUnaire implements ExpressionArithmetique {
 	@Override
 	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
 
-		if(affectations.isEmpty()) {
+		ExpressionArithmetique res;
 
-			ExpressionArithmetique res;
+		this.operande = this.operande.simplifier(affectations);
 
-			this.operande = this.operande.simplifier();
+		if(this.operande instanceof ConstanteEntiere) {
+			res = simplifie((ConstanteEntiere) this.operande);
 
-			if(this.operande instanceof ConstanteEntiere) {
-				res = simplifie((ConstanteEntiere) this.operande);
+		} else if(this.operande instanceof ConstanteRationnelle) {
+			res = simplifie((ConstanteRationnelle) this.operande);
 
-			} else if(this.operande instanceof ConstanteRationnelle) {
-				res = simplifie((ConstanteRationnelle) this.operande);
-
-			} else {
-				res = this;
-			}
-
-			return res;
+		} else {
+			res = this;
 		}
 
-		for(Map.Entry<ExpressionArithmetique, ExpressionArithmetique> e : affectations.entrySet()){
-
-			if(this.operande.equals(e.getKey())) {
-				((VariableSymbolique) this.operande).setConstante(e.getValue());
-				this.operande = this.operande.simplifier(affectations);
-			}
-		}
-
-		return this.simplifier();
+		return res;
 	}
 }

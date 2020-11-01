@@ -1,6 +1,8 @@
 package td3;
 
 public class Puissance extends OperationBinaire {
+	private static final int elementNeutre = 1;
+
 	public Puissance(ExpressionArithmetique left, ExpressionArithmetique right) {
 		super(left, right);
 	}
@@ -12,6 +14,14 @@ public class Puissance extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteEntiere droite) {
+		if(droite.getEntier() == 0) {
+			return new ConstanteEntiere(1);
+		}
+
+		if(droite.getEntier() == Puissance.elementNeutre) {
+			return gauche;
+		}
+
 		return new ConstanteRationnelle((int) Math.pow(gauche.getNumerateur(), droite.getEntier()), 
 				(int) Math.pow(gauche.getDenominateur(), droite.getEntier())).simplifier();
 	}
@@ -23,6 +33,18 @@ public class Puissance extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteEntiere droite) {
+		if(gauche.getEntier() == 0) {
+			return new ConstanteEntiere(0);
+		}
+
+		if(droite.getEntier() == 0) {
+			return new ConstanteEntiere(1);
+		}
+
+		if(droite.getEntier() == Puissance.elementNeutre) {
+			return gauche;
+		}
+
 		return new ConstanteEntiere((int) Math.pow(gauche.getEntier(), droite.getEntier())).simplifier();
 	}
 

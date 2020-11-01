@@ -56,14 +56,14 @@ public class RacineCarree extends OperationUnaire {
 		}
 
 		return new Multiplication(new ConstanteEntiere(entierHorsRacine), 
-				new RacineCarree(new ConstanteEntiere(entierSousRacine)));
+				new RacineCarree(new ConstanteEntiere(entierSousRacine))).simplifier();
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle op) {
 
 		return new Division(new RacineCarree(new ConstanteEntiere(op.getNumerateur())).simplifier(), 
-				new RacineCarree(new ConstanteEntiere(op.getDenominateur())).simplifier());
+				new RacineCarree(new ConstanteEntiere(op.getDenominateur())).simplifier()).simplifier();
 	}
 
 	/**

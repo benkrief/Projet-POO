@@ -269,4 +269,61 @@ public class AppTest {
 
 		assertEquals("(3/2)", plusUn.simplifier(affectations).toString());
 	}
+
+	/**
+	 * Question 10
+	 * 
+	 * Simplifier les valeurs remarquables
+	 */
+	@Test
+	public void simplifyWithRemarkableValues() {
+
+		ExpressionArithmetique quatre = new ConstanteEntiere(4);
+		ExpressionArithmetique racine = new RacineCarree(quatre);
+
+		assertEquals("2", racine.simplifier().toString());
+	}
+
+	/**
+	 * Question 15
+	 * 
+	 * Simplifier les quatres opérations avec l'élément neutre
+	 */
+	@Test
+	public void simplifyWithNeutralElement() {
+
+		ExpressionArithmetique zero = new ConstanteEntiere(0);
+		ExpressionArithmetique un = new ConstanteEntiere(1);
+		ExpressionArithmetique deuxtiers = new ConstanteRationnelle(2, 3);
+
+		// addition
+
+		ExpressionArithmetique plus = new Addition(zero, deuxtiers);
+
+		assertEquals("(2/3)", plus.simplifier().toString());
+
+		// soustraction
+
+		ExpressionArithmetique minus = new Soustraction(deuxtiers, zero);
+
+		assertEquals("(2/3)", minus.simplifier().toString());
+
+		// multiplication
+
+		ExpressionArithmetique times = new Multiplication(deuxtiers, un);
+
+		assertEquals("(2/3)", times.simplifier().toString());
+
+		// division
+
+		ExpressionArithmetique divided = new Division(deuxtiers, un);
+
+		assertEquals("(2/3)", divided.simplifier().toString());
+
+		// puissance
+
+		ExpressionArithmetique pow = new Puissance(deuxtiers, un);
+
+		assertEquals("(2/3)", pow.simplifier().toString());
+	}
 }

@@ -1,6 +1,7 @@
 package td3;
 
 public class Soustraction extends OperationBinaire {
+	private static final int elementNeutre = 0;
 
 	public Soustraction(ExpressionArithmetique left, ExpressionArithmetique right) {
 		super(left, right);
@@ -13,6 +14,10 @@ public class Soustraction extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteEntiere droite) {
+		if(droite.getEntier() == Soustraction.elementNeutre) {
+			return gauche;
+		}
+
 		return new ConstanteRationnelle(droite.getEntier() * gauche.getDenominateur() - gauche.getNumerateur(), 
 				gauche.getDenominateur()).simplifier();
 	}
@@ -26,6 +31,10 @@ public class Soustraction extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteEntiere droite) {
+		if(droite.getEntier() == Soustraction.elementNeutre) {
+			return gauche;
+		}
+
 		return new ConstanteEntiere(gauche.getEntier() - droite.getEntier()).simplifier();
 	}
 
