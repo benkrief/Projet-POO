@@ -1,7 +1,7 @@
 package td3;
 
 public class Soustraction extends OperationBinaire {
-	private static final int elementNeutre = 0;
+	private static final int ELEMENT_NEUTRE = 0;
 
 	public Soustraction(ExpressionArithmetique left, ExpressionArithmetique right) {
 		super(left, right);
@@ -14,16 +14,19 @@ public class Soustraction extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteEntiere droite) {
-		if(droite.getEntier() == Soustraction.elementNeutre) {
+
+		if(estElementNeutre(droite)) {
 			return gauche;
 		}
 
-		return new ConstanteRationnelle(droite.getEntier() * gauche.getDenominateur() - gauche.getNumerateur(), 
+		return new ConstanteRationnelle(
+				droite.getEntier() * gauche.getDenominateur() - gauche.getNumerateur(), 
 				gauche.getDenominateur()).simplifier();
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteRationnelle droite) {
+
 		return new ConstanteRationnelle(
 				gauche.getNumerateur() * droite.getDenominateur() - droite.getNumerateur() * gauche.getDenominateur(), 
 				gauche.getDenominateur() * droite.getDenominateur()).simplifier();
@@ -31,7 +34,8 @@ public class Soustraction extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteEntiere droite) {
-		if(droite.getEntier() == Soustraction.elementNeutre) {
+
+		if(estElementNeutre(droite)) {
 			return gauche;
 		}
 
@@ -40,24 +44,37 @@ public class Soustraction extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteRationnelle droite) {
-		return new ConstanteRationnelle(gauche.getEntier() * droite.getDenominateur() - droite.getNumerateur(), 
+
+		return new ConstanteRationnelle(
+				gauche.getEntier() * droite.getDenominateur() - droite.getNumerateur(), 
 				droite.getDenominateur()).simplifier();
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
+
+		if(estElementNeutre(droite)) {
+			return gauche;
+		}
+
 		return this;
 	}
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
+
 		return ea instanceof Soustraction 
-				&& ((Soustraction) ea.simplifier()).left.equals(((Soustraction) this.simplifier()).left) 
-				&& ((Soustraction) ea.simplifier()).right.equals(((Soustraction) this.simplifier()).right);
+				&& ((Soustraction) ea.simplifier()).left.equals(((Soustraction) simplifier()).left) 
+				&& ((Soustraction) ea.simplifier()).right.equals(((Soustraction) simplifier()).right);
 	}
 
 	@Override
 	public String toString() {
 		return "(" + this.left + " - " + this.right + ")";
+	}
+
+	@Override
+	protected boolean estElementNeutre(ExpressionArithmetique ea) {
+		return ea instanceof ConstanteEntiere && ((ConstanteEntiere) ea).getEntier() == Soustraction.ELEMENT_NEUTRE;
 	}
 }

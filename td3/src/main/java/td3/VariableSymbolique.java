@@ -25,6 +25,7 @@ public class VariableSymbolique implements ExpressionArithmetique {
 
 	@Override
 	public ExpressionArithmetique simplifier() {
+
 		if(this.ea != null) {
 			return this.ea.simplifier();
 		}
@@ -39,12 +40,12 @@ public class VariableSymbolique implements ExpressionArithmetique {
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
-		return ea instanceof VariableSymbolique 
-				&& ((VariableSymbolique) ea).getSymbole() == this.symbole;
+		return ea instanceof VariableSymbolique && ((VariableSymbolique) ea).getSymbole() == this.symbole;
 	}
 
 	@Override
 	public String toString() {
+
 		if(this.ea != null) {
 			return this.ea.toString();
 		}

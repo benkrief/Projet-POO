@@ -1,6 +1,7 @@
 package td3;
 
 public class RacineCarree extends OperationUnaire {
+
 	public RacineCarree(ExpressionArithmetique op) {
 		super(op);
 	}
@@ -17,6 +18,7 @@ public class RacineCarree extends OperationUnaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere op) {
+
 		int n = op.getEntier();
 
 		if(n == 0 || n == 1) {
@@ -73,6 +75,7 @@ public class RacineCarree extends OperationUnaire {
 	 * @return boolean
 	 */
 	private boolean estPremier(int n) {
+
 		for(int i = 2; i < n; i++) {
 			if(n % i == 0) {
 				return false;
@@ -85,7 +88,7 @@ public class RacineCarree extends OperationUnaire {
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
 		return ea instanceof RacineCarree 
-				&& ((RacineCarree) ea.simplifier()).operande.equals(((RacineCarree) this.simplifier()).operande);
+				&& ((RacineCarree) ea.simplifier()).operande.equals(((RacineCarree) simplifier()).operande);
 	}
 
 	@Override

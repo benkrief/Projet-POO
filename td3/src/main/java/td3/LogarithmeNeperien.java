@@ -18,6 +18,7 @@ public class LogarithmeNeperien extends OperationUnaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere op) {
+
 		int n = op.getEntier();
 
 		if(n == 0) {
@@ -29,15 +30,15 @@ public class LogarithmeNeperien extends OperationUnaire {
 		}
 
 		for(int i = 2; i <= n; i++) {
-			int tmp = n;
+			int current = n;
 			int puissance = 0;
 
-			while(tmp % i == 0) {
-				tmp /= i;
+			while(current % i == 0) {
+				current /= i;
 				puissance++;
 			}
 
-			if(tmp == 1) {
+			if(current == 1 && puissance > 1) {
 				return new Multiplication(new ConstanteEntiere(puissance), new LogarithmeNeperien(new ConstanteEntiere(i)));
 			}
 		}
@@ -47,17 +48,15 @@ public class LogarithmeNeperien extends OperationUnaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle op) {
-		int num = ((ConstanteRationnelle) op.simplifier()).getNumerateur();
-		int denom = ((ConstanteRationnelle) op.simplifier()).getDenominateur();
 
-		return new Soustraction(new LogarithmeNeperien(new ConstanteEntiere(num)), 
-				new LogarithmeNeperien(new ConstanteEntiere(denom)));
+		return new Soustraction(new LogarithmeNeperien(new ConstanteEntiere(op.getNumerateur())).simplifier(), 
+				new LogarithmeNeperien(new ConstanteEntiere(op.getDenominateur())).simplifier()).simplifier();
 	}
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
 		return ea instanceof LogarithmeNeperien 
-				&& ((LogarithmeNeperien) ea.simplifier()).operande.equals(((LogarithmeNeperien) this.simplifier()).operande);
+				&& ((LogarithmeNeperien) ea.simplifier()).operande.equals(((LogarithmeNeperien) simplifier()).operande);
 	}
 
 	@Override

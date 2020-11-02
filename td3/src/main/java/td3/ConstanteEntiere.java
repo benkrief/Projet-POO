@@ -30,8 +30,7 @@ public final class ConstanteEntiere implements ExpressionArithmetique {
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
-		return ea instanceof ConstanteEntiere 
-				&& ((ConstanteEntiere) ea).getEntier() == this.entier;
+		return ea instanceof ConstanteEntiere && ((ConstanteEntiere) ea).getEntier() == this.entier;
 	}
 
 	@Override

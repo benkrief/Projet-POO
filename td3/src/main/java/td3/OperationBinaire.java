@@ -22,9 +22,11 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 
 	protected abstract ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteRationnelle droite);
 
+	protected abstract boolean estElementNeutre(ExpressionArithmetique ea);
+
 	@Override
 	public ExpressionArithmetique simplifier() {
-		return this.simplifier(Collections.<ExpressionArithmetique, ExpressionArithmetique>emptyMap());
+		return simplifier(Collections.<ExpressionArithmetique, ExpressionArithmetique>emptyMap());
 	}
 
 	@Override
@@ -60,7 +62,7 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 			res = simplifie(gauche, droite);
 
 		} else {
-			res = this;
+			res = simplifie(this.left, this.right);
 		}
 
 		return res;

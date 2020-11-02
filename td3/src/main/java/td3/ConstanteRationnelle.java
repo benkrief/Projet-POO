@@ -3,7 +3,7 @@ package td3;
 import java.util.Map;
 
 public final class ConstanteRationnelle implements ExpressionArithmetique {
-	private static final int elementNeutre = 1;
+	private static final int ELEMENT_NEUTRE = 1;
 
 	private final int numerateur;
 	private final int denominateur;
@@ -23,11 +23,12 @@ public final class ConstanteRationnelle implements ExpressionArithmetique {
 
 	@Override
 	public double calculer() {
-		return (double)this.numerateur / this.denominateur;
+		return (double) this.numerateur / this.denominateur;
 	}
 
 	@Override
 	public ExpressionArithmetique simplifier() {
+
 		if(this.denominateur == 0) {
 			throw new IllegalArgumentException("La valeur du dénominateur doit être différente de 0 !");
 		}
@@ -42,7 +43,7 @@ public final class ConstanteRationnelle implements ExpressionArithmetique {
 
 		int pgcd = gcd(this.numerateur, this.denominateur);
 
-		if(this.denominateur / pgcd == ConstanteRationnelle.elementNeutre) {
+		if(this.denominateur / pgcd == ConstanteRationnelle.ELEMENT_NEUTRE) {
 			return new ConstanteEntiere(this.numerateur / pgcd);
 		}
 
@@ -71,9 +72,10 @@ public final class ConstanteRationnelle implements ExpressionArithmetique {
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
+
 		return ea instanceof ConstanteRationnelle 
-				&& ((ConstanteRationnelle) ea.simplifier()).getNumerateur() == ((ConstanteRationnelle) this.simplifier()).numerateur 
-				&& ((ConstanteRationnelle) ea.simplifier()).getDenominateur() == ((ConstanteRationnelle) this.simplifier()).denominateur;
+				&& ((ConstanteRationnelle) ea.simplifier()).getNumerateur() == ((ConstanteRationnelle) simplifier()).numerateur 
+				&& ((ConstanteRationnelle) ea.simplifier()).getDenominateur() == ((ConstanteRationnelle) simplifier()).denominateur;
 	}
 
 	@Override

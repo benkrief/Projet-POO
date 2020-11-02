@@ -1,7 +1,7 @@
 package td3;
 
 public class Addition extends OperationBinaire {
-	private static final int elementNeutre = 0;
+	private static final int ELEMENT_NEUTRE = 0;
 
 	public Addition(ExpressionArithmetique left, ExpressionArithmetique right) {
 		super(left, right);
@@ -14,16 +14,19 @@ public class Addition extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteEntiere droite) {
-		if(droite.getEntier() == Addition.elementNeutre) {
+
+		if(estElementNeutre(droite)) {
 			return gauche;
 		}
 
-		return new ConstanteRationnelle(droite.getEntier() * gauche.getDenominateur() + gauche.getNumerateur(), 
+		return new ConstanteRationnelle(
+				droite.getEntier() * gauche.getDenominateur() + gauche.getNumerateur(), 
 				gauche.getDenominateur()).simplifier();
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteRationnelle droite) {
+
 		return new ConstanteRationnelle(
 				gauche.getNumerateur() * droite.getDenominateur() + droite.getNumerateur() * gauche.getDenominateur(), 
 				gauche.getDenominateur() * droite.getDenominateur()).simplifier();
@@ -31,11 +34,12 @@ public class Addition extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteEntiere droite) {
-		if(gauche.getEntier() == Addition.elementNeutre) {
+
+		if(estElementNeutre(gauche)) {
 			return droite;
 		}
 
-		if(droite.getEntier() == Addition.elementNeutre) {
+		if(estElementNeutre(droite)) {
 			return gauche;
 		}
 
@@ -44,23 +48,38 @@ public class Addition extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteRationnelle droite) {
-		return this.simplifie(droite, gauche).simplifier();
+		return simplifie(droite, gauche).simplifier();
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
+
+		if(estElementNeutre(gauche)) {
+			return droite;
+		}
+
+		if(estElementNeutre(droite)) {
+			return gauche;
+		}
+
 		return this;
 	}
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
+
 		return ea instanceof Addition 
-				&& ((Addition) ea.simplifier()).left.equals(((Addition) this.simplifier()).left) 
-				&& ((Addition) ea.simplifier()).right.equals(((Addition) this.simplifier()).right);
+				&& ((Addition) ea.simplifier()).left.equals(((Addition) simplifier()).left) 
+				&& ((Addition) ea.simplifier()).right.equals(((Addition) simplifier()).right);
 	}
 
 	@Override
 	public String toString() {
 		return "(" + this.left + " + " + this.right + ")";
+	}
+
+	@Override
+	protected boolean estElementNeutre(ExpressionArithmetique ea) {
+		return ea instanceof ConstanteEntiere && ((ConstanteEntiere) ea).getEntier() == Addition.ELEMENT_NEUTRE;
 	}
 }

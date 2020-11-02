@@ -18,7 +18,7 @@ public abstract class OperationUnaire implements ExpressionArithmetique {
 
 	@Override
 	public ExpressionArithmetique simplifier() {
-		return this.simplifier(Collections.<ExpressionArithmetique, ExpressionArithmetique>emptyMap());
+		return simplifier(Collections.<ExpressionArithmetique, ExpressionArithmetique>emptyMap());
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public abstract class OperationUnaire implements ExpressionArithmetique {
 			res = simplifie((ConstanteRationnelle) this.operande);
 
 		} else {
-			res = this;
+			res = simplifie(this.operande);
 		}
 
 		return res;

@@ -1,7 +1,8 @@
 package td3;
 
 public class Puissance extends OperationBinaire {
-	private static final int elementNeutre = 1;
+	private static final int ELEMENT_NEUTRE = 1;
+	private static final int VALEUR_REMARQUABLE = 0;
 
 	public Puissance(ExpressionArithmetique left, ExpressionArithmetique right) {
 		super(left, right);
@@ -14,11 +15,12 @@ public class Puissance extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteEntiere droite) {
-		if(droite.getEntier() == 0) {
+
+		if(estValeurRemarquable(droite)) {
 			return new ConstanteEntiere(1);
 		}
 
-		if(droite.getEntier() == Puissance.elementNeutre) {
+		if(estElementNeutre(droite)) {
 			return gauche;
 		}
 
@@ -33,15 +35,16 @@ public class Puissance extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteEntiere droite) {
-		if(gauche.getEntier() == 0) {
+
+		if(estValeurRemarquable(gauche)) {
 			return new ConstanteEntiere(0);
 		}
 
-		if(droite.getEntier() == 0) {
+		if(estElementNeutre(gauche) || estValeurRemarquable(droite)) {
 			return new ConstanteEntiere(1);
 		}
 
-		if(droite.getEntier() == Puissance.elementNeutre) {
+		if(estElementNeutre(droite)) {
 			return gauche;
 		}
 
@@ -50,23 +53,55 @@ public class Puissance extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteRationnelle droite) {
+
+		if(estValeurRemarquable(gauche)) {
+			return new ConstanteEntiere(0);
+		}
+
+		if(estElementNeutre(gauche)) {
+			return new ConstanteEntiere(1);
+		}
+
 		return this;
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
+
+		if(estValeurRemarquable(gauche)) {
+			return new ConstanteEntiere(0);
+		}
+
+		if(estElementNeutre(gauche) || estValeurRemarquable(droite)) {
+			return new ConstanteEntiere(1);
+		}
+
+		if(estElementNeutre(droite)) {
+			return gauche;
+		}
+
 		return this;
 	}
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
+
 		return ea instanceof Puissance 
-				&& ((Puissance) ea.simplifier()).left.equals(((Puissance) this.simplifier()).left) 
-				&& ((Puissance) ea.simplifier()).right.equals(((Puissance) this.simplifier()).right);
+				&& ((Puissance) ea.simplifier()).left.equals(((Puissance) simplifier()).left) 
+				&& ((Puissance) ea.simplifier()).right.equals(((Puissance) simplifier()).right);
 	}
 
 	@Override
 	public String toString() {
 		return "(" + this.left + "^" + this.right + ")";
+	}
+
+	@Override
+	protected boolean estElementNeutre(ExpressionArithmetique ea) {
+		return ea instanceof ConstanteEntiere && ((ConstanteEntiere) ea).getEntier() == Puissance.ELEMENT_NEUTRE;
+	}
+
+	private boolean estValeurRemarquable(ExpressionArithmetique ea) {
+		return ea instanceof ConstanteEntiere && ((ConstanteEntiere) ea).getEntier() == Puissance.VALEUR_REMARQUABLE;
 	}
 }

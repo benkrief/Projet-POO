@@ -160,10 +160,10 @@ public class AppTest {
 
 		assertEquals("(3 * ln(2))", lnCE.simplifier().toString());
 
-		ExpressionArithmetique cr4 = new ConstanteRationnelle(6, 7);
+		ExpressionArithmetique cr4 = new ConstanteRationnelle(6, 1);
 		ExpressionArithmetique lnCR = new LogarithmeNeperien(cr4);
 
-		assertEquals("(ln(6) - ln(7))", lnCR.simplifier().toString());
+		assertEquals("ln(6)", lnCR.simplifier().toString());
 	}
 
 	/**
@@ -278,10 +278,40 @@ public class AppTest {
 	@Test
 	public void simplifyWithRemarkableValues() {
 
+		// racine carree
+
 		ExpressionArithmetique quatre = new ConstanteEntiere(4);
 		ExpressionArithmetique racine = new RacineCarree(quatre);
 
 		assertEquals("2", racine.simplifier().toString());
+
+		// cosinus
+
+		ExpressionArithmetique deux = new ConstanteEntiere(2);
+		ExpressionArithmetique divided = new Division(ExpressionArithmetique.PI, deux);
+		ExpressionArithmetique cosinus = new Cosinus(divided);
+
+		assertEquals("0", cosinus.simplifier().toString());
+
+		// sinus
+
+		ExpressionArithmetique sinus = new Sinus(ExpressionArithmetique.PI);
+
+		assertEquals("0", sinus.simplifier().toString());
+
+		// logarithme neperien
+
+		ExpressionArithmetique un = new ConstanteEntiere(1);
+		ExpressionArithmetique ln = new LogarithmeNeperien(un);
+
+		assertEquals("0", ln.simplifier().toString());
+
+		// puissance
+
+		ExpressionArithmetique zero = new ConstanteEntiere(0);
+		ExpressionArithmetique pow = new Puissance(ExpressionArithmetique.E, zero);
+
+		assertEquals("1", pow.simplifier().toString());
 	}
 
 	/**

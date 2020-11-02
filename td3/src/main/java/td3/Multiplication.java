@@ -1,7 +1,8 @@
 package td3;
 
 public class Multiplication extends OperationBinaire {
-	private static final int elementNeutre = 1;
+	private static final int ELEMENT_NEUTRE = 1;
+	private static final int VALEUR_REMARQUABLE = 0;
 
 	public Multiplication(ExpressionArithmetique left, ExpressionArithmetique right) {
 		super(left, right);
@@ -14,11 +15,12 @@ public class Multiplication extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteEntiere droite) {
-		if(droite.getEntier() == 0) {
+
+		if(estValeurRemarquable(droite)) {
 			return new ConstanteEntiere(0);
 		}
 
-		if(droite.getEntier() == Multiplication.elementNeutre) {
+		if(estElementNeutre(droite)) {
 			return gauche;
 		}
 
@@ -28,25 +30,23 @@ public class Multiplication extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteRationnelle droite) {
+
 		return new ConstanteRationnelle(gauche.getNumerateur() * droite.getNumerateur(), 
 				gauche.getDenominateur() * droite.getDenominateur()).simplifier();
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteEntiere droite) {
-		if(gauche.getEntier() == 0) {
+
+		if(estValeurRemarquable(gauche) || estValeurRemarquable(droite)) {
 			return new ConstanteEntiere(0);
 		}
 
-		if(droite.getEntier() == 0) {
-			return new ConstanteEntiere(0);
-		}
-
-		if(gauche.getEntier() == Multiplication.elementNeutre) {
+		if(estElementNeutre(gauche)) {
 			return droite;
 		}
 
-		if(droite.getEntier() == Multiplication.elementNeutre) {
+		if(estElementNeutre(droite)) {
 			return gauche;
 		}
 
@@ -55,23 +55,45 @@ public class Multiplication extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteRationnelle droite) {
-		return this.simplifie(droite, gauche).simplifier();
+		return simplifie(droite, gauche).simplifier();
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
+
+		if(estValeurRemarquable(gauche) || estValeurRemarquable(droite)) {
+			return new ConstanteEntiere(0);
+		}
+
+		if(estElementNeutre(gauche)) {
+			return droite;
+		}
+
+		if(estElementNeutre(droite)) {
+			return gauche;
+		}
+
 		return this;
 	}
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
 		return ea instanceof Multiplication 
-				&& ((Multiplication) ea.simplifier()).left.equals(((Multiplication) this.simplifier()).left) 
-				&& ((Multiplication) ea.simplifier()).right.equals(((Multiplication) this.simplifier()).right);
+				&& ((Multiplication) ea.simplifier()).left.equals(((Multiplication) simplifier()).left) 
+				&& ((Multiplication) ea.simplifier()).right.equals(((Multiplication) simplifier()).right);
 	}
 
 	@Override
 	public String toString() {
 		return "(" + this.left + " * " + this.right + ")";
+	}
+
+	@Override
+	protected boolean estElementNeutre(ExpressionArithmetique ea) {
+		return ea instanceof ConstanteEntiere && ((ConstanteEntiere) ea).getEntier() == Multiplication.ELEMENT_NEUTRE;
+	}
+
+	private boolean estValeurRemarquable(ExpressionArithmetique ea) {
+		return ea instanceof ConstanteEntiere && ((ConstanteEntiere) ea).getEntier() == Multiplication.VALEUR_REMARQUABLE;
 	}
 }
