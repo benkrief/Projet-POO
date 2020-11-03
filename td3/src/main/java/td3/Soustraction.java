@@ -1,7 +1,7 @@
 package td3;
 
 public class Soustraction extends OperationBinaire {
-	private static final int ELEMENT_NEUTRE = 0;
+	private static final ExpressionArithmetique ELEMENT_NEUTRE = new ConstanteEntiere(0);
 
 	public Soustraction(ExpressionArithmetique left, ExpressionArithmetique right) {
 		super(left, right);
@@ -75,6 +75,6 @@ public class Soustraction extends OperationBinaire {
 
 	@Override
 	protected boolean estElementNeutre(ExpressionArithmetique ea) {
-		return ea instanceof ConstanteEntiere && ((ConstanteEntiere) ea).getEntier() == Soustraction.ELEMENT_NEUTRE;
+		return ea.equals(Soustraction.ELEMENT_NEUTRE);
 	}
 }

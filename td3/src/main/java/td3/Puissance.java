@@ -1,8 +1,8 @@
 package td3;
 
 public class Puissance extends OperationBinaire {
-	private static final int ELEMENT_NEUTRE = 1;
-	private static final int VALEUR_REMARQUABLE = 0;
+	private static final ExpressionArithmetique ELEMENT_NEUTRE = new ConstanteEntiere(1);
+	private static final ExpressionArithmetique VALEUR_REMARQUABLE = new ConstanteEntiere(0);
 
 	public Puissance(ExpressionArithmetique left, ExpressionArithmetique right) {
 		super(left, right);
@@ -98,10 +98,10 @@ public class Puissance extends OperationBinaire {
 
 	@Override
 	protected boolean estElementNeutre(ExpressionArithmetique ea) {
-		return ea instanceof ConstanteEntiere && ((ConstanteEntiere) ea).getEntier() == Puissance.ELEMENT_NEUTRE;
+		return ea.equals(Puissance.ELEMENT_NEUTRE);
 	}
 
 	private boolean estValeurRemarquable(ExpressionArithmetique ea) {
-		return ea instanceof ConstanteEntiere && ((ConstanteEntiere) ea).getEntier() == Puissance.VALEUR_REMARQUABLE;
+		return ea.equals(Puissance.VALEUR_REMARQUABLE);
 	}
 }

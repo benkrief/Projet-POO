@@ -1,8 +1,8 @@
 package td3;
 
 public class Division extends OperationBinaire {
-	private static final int ELEMENT_NEUTRE = 1;
-	private static final int VALEUR_REMARQUABLE = 0;
+	private static final ExpressionArithmetique ELEMENT_NEUTRE = new ConstanteEntiere(1);
+	private static final ExpressionArithmetique VALEUR_REMARQUABLE = new ConstanteEntiere(0);
 
 	public Division(ExpressionArithmetique left, ExpressionArithmetique right) {
 		super(left, right);
@@ -100,10 +100,10 @@ public class Division extends OperationBinaire {
 
 	@Override
 	protected boolean estElementNeutre(ExpressionArithmetique ea) {
-		return ea instanceof ConstanteEntiere && ((ConstanteEntiere) ea).getEntier() == Division.ELEMENT_NEUTRE;
+		return ea.equals(Division.ELEMENT_NEUTRE);
 	}
 
 	private boolean estValeurRemarquable(ExpressionArithmetique ea) {
-		return ea instanceof ConstanteEntiere && ((ConstanteEntiere) ea).getEntier() == Division.VALEUR_REMARQUABLE;
+		return ea.equals(Division.VALEUR_REMARQUABLE);
 	}
 }

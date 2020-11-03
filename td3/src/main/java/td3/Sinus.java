@@ -14,15 +14,10 @@ public class Sinus extends OperationUnaire {
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique op) {
 
-		if(op instanceof Division 
-			&& ((Division) op).left instanceof ConstanteSymbolique 
-				&& ((ConstanteSymbolique) ((Division) op).left).getSymbole() == 'π'
-			&& ((Division) op).right instanceof ConstanteEntiere 
-				&& ((ConstanteEntiere) ((Division) op).right).getEntier() == 2) {
-
+		if(op.equals(new Division(ExpressionArithmetique.PI, new ConstanteEntiere(2)))) {
 			return new ConstanteEntiere(1);
 
-		} else if(op instanceof ConstanteSymbolique && ((ConstanteSymbolique) op).getSymbole() == 'π') {
+		} else if(op.equals(ExpressionArithmetique.PI)) {
 			return new ConstanteEntiere(0);
 		}
 
