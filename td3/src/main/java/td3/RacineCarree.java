@@ -19,11 +19,28 @@ public class RacineCarree extends OperationUnaire {
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere op) {
 
-		int n = op.getEntier();
-
-		if(n == 0 || n == 1) {
-			return new ConstanteEntiere(n);
+		if(op.equals(new ConstanteEntiere(0)) || op.equals(new ConstanteEntiere(1))) {
+			return op;
 		}
+
+		return simplifySqrt(op.getEntier());
+	}
+
+	@Override
+	protected ExpressionArithmetique simplifie(ConstanteRationnelle op) {
+
+		return new Division(new RacineCarree(new ConstanteEntiere(op.getNumerateur())).simplifier(), 
+				new RacineCarree(new ConstanteEntiere(op.getDenominateur())).simplifier()).simplifier();
+	}
+
+	/**
+	 * Simplification de la racine carrée (cas du nombre qui se compose d'un carré parfait).
+	 * exemple : sqrt(12) = sqrt(3*4) = 2*sqrt(3)
+	 * 
+	 * @param n
+	 * @return
+	 */
+	private ExpressionArithmetique simplifySqrt(int n) {
 
 		int entierHorsRacine = 1;
 		int entierSousRacine = 1;
@@ -59,13 +76,6 @@ public class RacineCarree extends OperationUnaire {
 
 		return new Multiplication(new ConstanteEntiere(entierHorsRacine), 
 				new RacineCarree(new ConstanteEntiere(entierSousRacine))).simplifier();
-	}
-
-	@Override
-	protected ExpressionArithmetique simplifie(ConstanteRationnelle op) {
-
-		return new Division(new RacineCarree(new ConstanteEntiere(op.getNumerateur())).simplifier(), 
-				new RacineCarree(new ConstanteEntiere(op.getDenominateur())).simplifier()).simplifier();
 	}
 
 	/**
