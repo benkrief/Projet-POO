@@ -268,6 +268,7 @@ public class AppTest {
 		affectations.put(y, un);
 
 		assertEquals("(3/2)", plusUn.simplifier(affectations).toString());
+		assertEquals(1.5, plusUn.simplifier(affectations).calculer(), 0.0001);
 	}
 
 	/**
@@ -355,5 +356,23 @@ public class AppTest {
 		ExpressionArithmetique pow = new Puissance(deuxtiers, un);
 
 		assertEquals("(2/3)", pow.simplifier().toString());
+	}
+
+	/**
+	 * Question 16
+	 * 
+	 * Supporter la distributivité du produit sur l'addition et la soustraction
+	 */
+	@Test
+	public void simplifyWithDistributivity() {
+
+		ExpressionArithmetique deux = new ConstanteEntiere(2);
+		ExpressionArithmetique undemi = new ConstanteRationnelle(1, 2);
+		ExpressionArithmetique x = new VariableSymbolique('x');
+
+		ExpressionArithmetique plus = new Addition(x, undemi);
+		ExpressionArithmetique times = new Multiplication(deux, plus);
+
+		assertEquals("((2 * x) + 1)", times.simplifier().toString());
 	}
 }

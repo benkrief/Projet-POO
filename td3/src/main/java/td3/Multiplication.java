@@ -73,6 +73,79 @@ public class Multiplication extends OperationBinaire {
 			return gauche;
 		}
 
+		return distributivity(gauche, droite);
+	}
+
+	/**
+	 * Distributivité sur l'addition et la soustraction.
+	 * 
+	 * @param gauche
+	 * @param droite
+	 * @return ExpressionArithmetique
+	 */
+	private ExpressionArithmetique distributivity(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
+
+		if(gauche instanceof Addition && droite instanceof Addition) {
+
+			return new Addition(
+					new Addition(
+						new Multiplication(((Addition) gauche).left, ((Addition) droite).left), 
+						new Multiplication(((Addition) gauche).left, ((Addition) droite).right)), 
+					new Addition(
+						new Multiplication(((Addition) gauche).right, ((Addition) droite).left), 
+						new Multiplication(((Addition) gauche).right, ((Addition) droite).right))).simplifier();
+
+		} else if(gauche instanceof Soustraction && droite instanceof Soustraction) {
+
+			return new Soustraction(
+					new Soustraction(
+						new Multiplication(((Soustraction) gauche).left, ((Soustraction) droite).left), 
+						new Multiplication(((Soustraction) gauche).left, ((Soustraction) droite).right)), 
+					new Soustraction(
+						new Multiplication(((Soustraction) gauche).right, ((Soustraction) droite).left), 
+						new Multiplication(((Soustraction) gauche).right, ((Soustraction) droite).right))).simplifier();
+
+		} else if(gauche instanceof Addition && droite instanceof Soustraction) {
+
+			return new Addition(
+					new Soustraction(
+						new Multiplication(((Addition) gauche).left, ((Soustraction) droite).left), 
+						new Multiplication(((Addition) gauche).left, ((Soustraction) droite).right)), 
+					new Soustraction(
+						new Multiplication(((Addition) gauche).right, ((Soustraction) droite).left), 
+						new Multiplication(((Addition) gauche).right, ((Soustraction) droite).right))).simplifier();
+
+		} else if(gauche instanceof Soustraction && droite instanceof Addition) {
+
+			return new Soustraction(
+					new Addition(
+						new Multiplication(((Soustraction) gauche).left, ((Addition) droite).left), 
+						new Multiplication(((Soustraction) gauche).left, ((Addition) droite).right)), 
+					new Addition(
+						new Multiplication(((Soustraction) gauche).right, ((Addition) droite).left), 
+						new Multiplication(((Soustraction) gauche).right, ((Addition) droite).right))).simplifier();
+
+		} else if(gauche instanceof Addition) {
+
+			return new Addition(new Multiplication(((Addition) gauche).left, droite), 
+					new Multiplication(((Addition) gauche).right, droite)).simplifier();
+
+		} else if(gauche instanceof Soustraction) {
+
+			return new Soustraction(new Multiplication(((Soustraction) gauche).left, droite), 
+					new Multiplication(((Soustraction) gauche).right, droite)).simplifier();
+
+		} else if(droite instanceof Addition) {
+
+			return new Addition(new Multiplication(gauche, ((Addition) droite).left), 
+					new Multiplication(gauche, ((Addition) droite).right)).simplifier();
+
+		} else if(droite instanceof Soustraction) {
+
+			return new Soustraction(new Multiplication(gauche, ((Soustraction) droite).left), 
+					new Multiplication(gauche, ((Soustraction) droite).right)).simplifier();
+		}
+
 		return this;
 	}
 

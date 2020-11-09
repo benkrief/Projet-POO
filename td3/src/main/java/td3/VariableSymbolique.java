@@ -4,7 +4,6 @@ import java.util.Map;
 
 public class VariableSymbolique implements ExpressionArithmetique {
 	private final char symbole;
-	private ExpressionArithmetique ea;
 
 	public VariableSymbolique(char symbole) {
 		this.symbole = symbole;
@@ -14,22 +13,13 @@ public class VariableSymbolique implements ExpressionArithmetique {
 		return this.symbole;
 	}
 
-	public ExpressionArithmetique getConstante() {
-		return this.ea;
-	}
-
 	@Override
 	public double calculer() {
-		return this.ea.calculer();
+		return 0.0;
 	}
 
 	@Override
 	public ExpressionArithmetique simplifier() {
-
-		if(this.ea != null) {
-			return this.ea.simplifier();
-		}
-
 		return this;
 	}
 
@@ -45,11 +35,6 @@ public class VariableSymbolique implements ExpressionArithmetique {
 
 	@Override
 	public String toString() {
-
-		if(this.ea != null) {
-			return this.ea.toString();
-		}
-
 		return Character.toString(this.symbole);
 	}
 }
