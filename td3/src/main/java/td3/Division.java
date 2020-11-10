@@ -9,6 +9,11 @@ public class Division extends OperationBinaire {
 	}
 
 	@Override
+	public ExpressionArithmetique getNeutralElement() {
+		return Division.ELEMENT_NEUTRE;
+	}
+
+	@Override
 	public double calculer() {
 		return this.left.calculer() / this.right.calculer();
 	}
@@ -16,12 +21,8 @@ public class Division extends OperationBinaire {
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteEntiere droite) {
 
-		if(estValeurRemarquable(droite)) {
+		if (droite.equals(Division.VALEUR_REMARQUABLE)) {
 			throw new IllegalArgumentException("La valeur du dénominateur doit être différente de 0 !");
-		}
-
-		if(estElementNeutre(droite)) {
-			return gauche;
 		}
 
 		return new ConstanteRationnelle(gauche.getNumerateur(), 
@@ -31,11 +32,11 @@ public class Division extends OperationBinaire {
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteRationnelle droite) {
 
-		if(estValeurRemarquable(gauche)) {
-			return new ConstanteEntiere(0);
+		if (gauche.equals(Division.VALEUR_REMARQUABLE)) {
+			return gauche;
 		}
 
-		if(estElementNeutre(gauche)) {
+		if (gauche.equals(Division.ELEMENT_NEUTRE)) {
 			return new ConstanteRationnelle(droite.getDenominateur(), droite.getNumerateur()).simplifier();
 		}
 
@@ -53,15 +54,11 @@ public class Division extends OperationBinaire {
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteEntiere droite) {
 
-		if(estValeurRemarquable(droite)) {
+		if (droite.equals(Division.VALEUR_REMARQUABLE)) {
 			throw new IllegalArgumentException("La valeur du dénominateur doit être différente de 0 !");
 		}
 
-		if(estValeurRemarquable(gauche)) {
-			return new ConstanteEntiere(0);
-		}
-
-		if(estElementNeutre(droite)) {
+		if (gauche.equals(Division.VALEUR_REMARQUABLE)) {
 			return gauche;
 		}
 
@@ -71,15 +68,11 @@ public class Division extends OperationBinaire {
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
 
-		if(estValeurRemarquable(droite)) {
+		if (droite.equals(Division.VALEUR_REMARQUABLE)) {
 			throw new IllegalArgumentException("La valeur du dénominateur doit être différente de 0 !");
 		}
 
-		if(estValeurRemarquable(gauche)) {
-			return new ConstanteEntiere(0);
-		}
-
-		if(estElementNeutre(droite)) {
+		if (gauche.equals(Division.VALEUR_REMARQUABLE)) {
 			return gauche;
 		}
 
@@ -96,14 +89,5 @@ public class Division extends OperationBinaire {
 	@Override
 	public String toString() {
 		return "(" + this.left + " / " + this.right + ")";
-	}
-
-	@Override
-	protected boolean estElementNeutre(ExpressionArithmetique ea) {
-		return ea.equals(Division.ELEMENT_NEUTRE);
-	}
-
-	private boolean estValeurRemarquable(ExpressionArithmetique ea) {
-		return ea.equals(Division.VALEUR_REMARQUABLE);
 	}
 }

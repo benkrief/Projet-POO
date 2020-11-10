@@ -15,7 +15,7 @@ public class VariableSymbolique implements ExpressionArithmetique {
 
 	@Override
 	public double calculer() {
-		return 0.0;
+		throw new RuntimeException("Impossible de calculer une variable symbolique !");
 	}
 
 	@Override

@@ -8,16 +8,17 @@ public class Soustraction extends OperationBinaire {
 	}
 
 	@Override
+	public ExpressionArithmetique getNeutralElement() {
+		return Soustraction.ELEMENT_NEUTRE;
+	}
+
+	@Override
 	public double calculer() {
 		return this.left.calculer() - this.right.calculer();
 	}
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteEntiere droite) {
-
-		if(estElementNeutre(droite)) {
-			return gauche;
-		}
 
 		return new ConstanteRationnelle(
 				droite.getEntier() * gauche.getDenominateur() - gauche.getNumerateur(), 
@@ -34,11 +35,6 @@ public class Soustraction extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteEntiere droite) {
-
-		if(estElementNeutre(droite)) {
-			return gauche;
-		}
-
 		return new ConstanteEntiere(gauche.getEntier() - droite.getEntier()).simplifier();
 	}
 
@@ -52,11 +48,6 @@ public class Soustraction extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
-
-		if(estElementNeutre(droite)) {
-			return gauche;
-		}
-
 		return this;
 	}
 
@@ -71,10 +62,5 @@ public class Soustraction extends OperationBinaire {
 	@Override
 	public String toString() {
 		return "(" + this.left + " - " + this.right + ")";
-	}
-
-	@Override
-	protected boolean estElementNeutre(ExpressionArithmetique ea) {
-		return ea.equals(Soustraction.ELEMENT_NEUTRE);
 	}
 }

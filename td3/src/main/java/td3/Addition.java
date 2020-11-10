@@ -1,10 +1,15 @@
 package td3;
 
-public class Addition extends OperationBinaire {
+public class Addition extends OperationBinaire implements Commutable {
 	private static final ExpressionArithmetique ELEMENT_NEUTRE = new ConstanteEntiere(0);
 
 	public Addition(ExpressionArithmetique left, ExpressionArithmetique right) {
 		super(left, right);
+	}
+
+	@Override
+	public ExpressionArithmetique getNeutralElement() {
+		return Addition.ELEMENT_NEUTRE;
 	}
 
 	@Override
@@ -14,10 +19,6 @@ public class Addition extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteEntiere droite) {
-
-		if(estElementNeutre(droite)) {
-			return gauche;
-		}
 
 		return new ConstanteRationnelle(
 				droite.getEntier() * gauche.getDenominateur() + gauche.getNumerateur(), 
@@ -34,15 +35,6 @@ public class Addition extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteEntiere droite) {
-
-		if(estElementNeutre(gauche)) {
-			return droite;
-		}
-
-		if(estElementNeutre(droite)) {
-			return gauche;
-		}
-
 		return new ConstanteEntiere(gauche.getEntier() + droite.getEntier()).simplifier();
 	}
 
@@ -53,15 +45,6 @@ public class Addition extends OperationBinaire {
 
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
-
-		if(estElementNeutre(gauche)) {
-			return droite;
-		}
-
-		if(estElementNeutre(droite)) {
-			return gauche;
-		}
-
 		return this;
 	}
 
@@ -76,10 +59,5 @@ public class Addition extends OperationBinaire {
 	@Override
 	public String toString() {
 		return "(" + this.left + " + " + this.right + ")";
-	}
-
-	@Override
-	protected boolean estElementNeutre(ExpressionArithmetique ea) {
-		return ea.equals(Addition.ELEMENT_NEUTRE);
 	}
 }

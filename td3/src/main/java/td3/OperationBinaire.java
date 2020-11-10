@@ -12,7 +12,7 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 		this.right = right;
 	}
 
-	protected abstract ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite);
+	protected abstract ExpressionArithmetique getNeutralElement();
 
 	protected abstract ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteEntiere droite);
 
@@ -22,7 +22,7 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 
 	protected abstract ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteRationnelle droite);
 
-	protected abstract boolean estElementNeutre(ExpressionArithmetique ea);
+	protected abstract ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite);
 
 	@Override
 	public ExpressionArithmetique simplifier() {
@@ -36,6 +36,13 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 
 		this.left = this.left.simplifier(affectations);
 		this.right = this.right.simplifier(affectations);
+
+		if (this.right.equals(this.getNeutralElement())) {
+			return this.left;
+
+		} else if (this.left instanceof Commutable && this.left.equals(this.getNeutralElement())) {
+			return this.right;
+		}
 
 		if (this.left instanceof ConstanteEntiere && this.right instanceof ConstanteEntiere) {
 			ConstanteEntiere gauche = (ConstanteEntiere) this.left;
@@ -62,6 +69,7 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 			res = simplifie(gauche, droite);
 
 		} else {
+
 			res = simplifie(this.left, this.right);
 		}
 

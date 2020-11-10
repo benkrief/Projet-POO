@@ -9,6 +9,11 @@ public class Puissance extends OperationBinaire {
 	}
 
 	@Override
+	public ExpressionArithmetique getNeutralElement() {
+		return Puissance.ELEMENT_NEUTRE;
+	}
+
+	@Override
 	public double calculer() {
 		return Math.pow(this.left.calculer(), this.right.calculer());
 	}
@@ -16,12 +21,8 @@ public class Puissance extends OperationBinaire {
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteRationnelle gauche, ConstanteEntiere droite) {
 
-		if(estValeurRemarquable(droite)) {
+		if (droite.equals(Puissance.VALEUR_REMARQUABLE)) {
 			return new ConstanteEntiere(1);
-		}
-
-		if(estElementNeutre(droite)) {
-			return gauche;
 		}
 
 		return new ConstanteRationnelle((int) Math.pow(gauche.getNumerateur(), droite.getEntier()), 
@@ -36,16 +37,12 @@ public class Puissance extends OperationBinaire {
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteEntiere droite) {
 
-		if(estValeurRemarquable(gauche)) {
-			return new ConstanteEntiere(0);
-		}
-
-		if(estElementNeutre(gauche) || estValeurRemarquable(droite)) {
-			return new ConstanteEntiere(1);
-		}
-
-		if(estElementNeutre(droite)) {
+		if (gauche.equals(Puissance.VALEUR_REMARQUABLE)) {
 			return gauche;
+		}
+
+		if (gauche.equals(Puissance.ELEMENT_NEUTRE) || droite.equals(Puissance.VALEUR_REMARQUABLE)) {
+			return new ConstanteEntiere(1);
 		}
 
 		return new ConstanteEntiere((int) Math.pow(gauche.getEntier(), droite.getEntier())).simplifier();
@@ -54,11 +51,11 @@ public class Puissance extends OperationBinaire {
 	@Override
 	protected ExpressionArithmetique simplifie(ConstanteEntiere gauche, ConstanteRationnelle droite) {
 
-		if(estValeurRemarquable(gauche)) {
+		if (gauche.equals(Puissance.VALEUR_REMARQUABLE)) {
 			return new ConstanteEntiere(0);
 		}
 
-		if(estElementNeutre(gauche)) {
+		if (gauche.equals(Puissance.ELEMENT_NEUTRE)) {
 			return new ConstanteEntiere(1);
 		}
 
@@ -68,16 +65,12 @@ public class Puissance extends OperationBinaire {
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique gauche, ExpressionArithmetique droite) {
 
-		if(estValeurRemarquable(gauche)) {
-			return new ConstanteEntiere(0);
-		}
-
-		if(estElementNeutre(gauche) || estValeurRemarquable(droite)) {
-			return new ConstanteEntiere(1);
-		}
-
-		if(estElementNeutre(droite)) {
+		if (gauche.equals(Puissance.VALEUR_REMARQUABLE)) {
 			return gauche;
+		}
+
+		if (gauche.equals(Puissance.ELEMENT_NEUTRE) || droite.equals(Puissance.VALEUR_REMARQUABLE)) {
+			return new ConstanteEntiere(1);
 		}
 
 		return this;
@@ -94,14 +87,5 @@ public class Puissance extends OperationBinaire {
 	@Override
 	public String toString() {
 		return "(" + this.left + "^" + this.right + ")";
-	}
-
-	@Override
-	protected boolean estElementNeutre(ExpressionArithmetique ea) {
-		return ea.equals(Puissance.ELEMENT_NEUTRE);
-	}
-
-	private boolean estValeurRemarquable(ExpressionArithmetique ea) {
-		return ea.equals(Puissance.VALEUR_REMARQUABLE);
 	}
 }
