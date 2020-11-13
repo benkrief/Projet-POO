@@ -14,6 +14,6 @@ public class VariableSymboliqueIndexee extends VariableSymbolique {
 	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
 
 		return affectations.containsKey(this.index) ? 
-				new VariableSymboliqueIndexee(this.getSymbole(), affectations.get(this.index)) : this;
+				new VariableSymboliqueIndexee(this.symbole, affectations.get(this.index)) : this;
 	}
 }

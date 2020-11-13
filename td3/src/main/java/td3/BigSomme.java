@@ -1,5 +1,7 @@
 package td3;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class BigSomme implements ExpressionArithmetique {
@@ -38,14 +40,15 @@ public class BigSomme implements ExpressionArithmetique {
 
 	@Override
 	public ExpressionArithmetique simplifier() {
-		return this;
+		return simplifier(Collections.<ExpressionArithmetique, ExpressionArithmetique>emptyMap());
 	}
 
 	@Override
 	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
 
 		for (int i = this.inf.getEntier(); i <= this.sup.getEntier(); i++) {
-			//new VariableSymboliqueIndexee('α', this.index).simplifier(affectations);
+			affectations.put(this.index, new ConstanteEntiere(i));
+			this.ea.simplifier(affectations);
 		}
 
 		return this;

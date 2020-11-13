@@ -3,7 +3,7 @@ package td3;
 import java.util.Map;
 
 public class VariableSymbolique implements ExpressionArithmetique {
-	private final char symbole;
+	protected final char symbole;
 
 	public VariableSymbolique(char symbole) {
 		this.symbole = symbole;
