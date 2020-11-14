@@ -10,10 +10,36 @@ public class VariableSymboliqueIndexee extends VariableSymbolique {
 		this.index = index;
 	}
 
+	public ExpressionArithmetique getIndex() {
+		return this.index;
+	}
+
+	@Override
+	public double calculer() {
+		throw new RuntimeException("Impossible de calculer une variable symbolique indexée !");
+	}
+
+	@Override
+	public ExpressionArithmetique simplifier() {
+		return this;
+	}
+
 	@Override
 	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
 
 		return affectations.containsKey(this.index) ? 
 				new VariableSymboliqueIndexee(this.symbole, affectations.get(this.index)) : this;
+	}
+
+	@Override
+	public boolean equals(ExpressionArithmetique ea) {
+		return ea instanceof VariableSymboliqueIndexee 
+				&& ((VariableSymboliqueIndexee) ea).getSymbole() == this.symbole
+				&& ((VariableSymboliqueIndexee) ea).getIndex().equals(this.index);
+	}
+
+	@Override
+	public String toString() {
+		return this.symbole + this.index.toString();
 	}
 }

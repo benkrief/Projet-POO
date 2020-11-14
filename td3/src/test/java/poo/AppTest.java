@@ -8,6 +8,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import td3.Addition;
+import td3.BigSomme;
 import td3.ConstanteEntiere;
 import td3.ConstanteRationnelle;
 import td3.Cosinus;
@@ -20,6 +21,7 @@ import td3.RacineCarree;
 import td3.Sinus;
 import td3.Soustraction;
 import td3.VariableSymbolique;
+import td3.VariableSymboliqueIndexee;
 
 /**
  * Unit test for simple App.
@@ -313,6 +315,45 @@ public class AppTest {
 		ExpressionArithmetique pow = new Puissance(ExpressionArithmetique.E, zero);
 
 		assertEquals("1", pow.simplifier().toString());
+	}
+
+	/**
+	 * Question 11
+	 * 
+	 * Simplifier une BigSomme
+	 */
+	@Test
+	public void simplifyBigSomme() {
+
+		// bornes inférieures et supérieures
+
+		ExpressionArithmetique zero = new ConstanteEntiere(0);
+		ExpressionArithmetique quatre = new ConstanteEntiere(4);
+
+		// variable symbolique indexée
+
+		ExpressionArithmetique index = new VariableSymbolique('i');
+		ExpressionArithmetique alphai = new VariableSymboliqueIndexee('α', index);
+
+		Map<ExpressionArithmetique, ExpressionArithmetique> affectations = new HashMap<>();
+		affectations.put(index, quatre);
+
+		assertEquals("α4", alphai.simplifier(affectations).toString());
+
+		// puissance variable symbolique
+
+		ExpressionArithmetique x = new VariableSymbolique('x');
+		ExpressionArithmetique pow = new Puissance(x, index);
+
+		// multiplication
+
+		ExpressionArithmetique times = new Multiplication(alphai, pow);
+
+		// BigSomme
+
+		ExpressionArithmetique bigSomme = new BigSomme(times, (VariableSymbolique) index, (ConstanteEntiere) zero, (ConstanteEntiere) quatre);
+
+		assertEquals("", bigSomme.simplifier().toString());
 	}
 
 	/**

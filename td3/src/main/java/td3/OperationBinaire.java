@@ -40,7 +40,7 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 		if (this.right.equals(this.getNeutralElement())) {
 			return this.left;
 
-		} else if (this.left instanceof Commutable && this.left.equals(this.getNeutralElement())) {
+		} else if (this instanceof Commutable && this.left.equals(this.getNeutralElement())) {
 			return this.right;
 		}
 
