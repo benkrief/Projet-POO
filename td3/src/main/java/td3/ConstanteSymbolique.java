@@ -43,4 +43,9 @@ public class ConstanteSymbolique implements ExpressionArithmetique {
 	public String toString() {
 		return Character.toString(this.symbole);
 	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+		return (ConstanteSymbolique) super.clone();
+	}
 }

@@ -14,10 +14,10 @@ public class Sinus extends OperationUnaire {
 	@Override
 	protected ExpressionArithmetique simplifie(ExpressionArithmetique op) {
 
-		if(op.equals(new Division(ExpressionArithmetique.PI, new ConstanteEntiere(2)))) {
+		if(op.equals(new Division(new ConstanteSymbolique('π', Math.PI), new ConstanteEntiere(2)))) {
 			return new ConstanteEntiere(1);
 
-		} else if(op.equals(ExpressionArithmetique.PI)) {
+		} else if(op.equals(new ConstanteSymbolique('π', Math.PI))) {
 			return new ConstanteEntiere(0);
 		}
 
@@ -47,5 +47,15 @@ public class Sinus extends OperationUnaire {
 	@Override
 	public String toString() {
 		return "sin(" + this.operande + ")";
+	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+
+		ExpressionArithmetique c = (Sinus) super.clone();
+
+		((Sinus) c).operande = operande.clone();
+
+		return c;
 	}
 }

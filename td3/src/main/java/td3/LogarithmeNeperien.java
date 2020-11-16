@@ -73,4 +73,14 @@ public class LogarithmeNeperien extends OperationUnaire {
 	public String toString() {
 		return "ln(" + this.operande + ")";
 	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+
+		ExpressionArithmetique c = (LogarithmeNeperien) super.clone();
+
+		((LogarithmeNeperien) c).operande = operande.clone();
+
+		return c;
+	}
 }

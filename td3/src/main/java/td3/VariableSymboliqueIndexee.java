@@ -42,4 +42,9 @@ public class VariableSymboliqueIndexee extends VariableSymbolique {
 	public String toString() {
 		return this.symbole + this.index.toString();
 	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+		return (VariableSymboliqueIndexee) super.clone();
+	}
 }

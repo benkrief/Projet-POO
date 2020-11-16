@@ -88,4 +88,15 @@ public class Puissance extends OperationBinaire {
 	public String toString() {
 		return "(" + this.left + "^" + this.right + ")";
 	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+
+		ExpressionArithmetique c = (Puissance) super.clone();
+
+		((Puissance) c).left = left.clone();
+		((Puissance) c).right = right.clone();
+
+		return c;
+	}
 }

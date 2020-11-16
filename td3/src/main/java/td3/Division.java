@@ -90,4 +90,15 @@ public class Division extends OperationBinaire {
 	public String toString() {
 		return "(" + this.left + " / " + this.right + ")";
 	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+
+		ExpressionArithmetique c = (Division) super.clone();
+
+		((Division) c).left = left.clone();
+		((Division) c).right = right.clone();
+
+		return c;
+	}
 }

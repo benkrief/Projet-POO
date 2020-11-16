@@ -105,4 +105,14 @@ public class RacineCarree extends OperationUnaire {
 	public String toString() {
 		return "sqrt(" + this.operande + ")";
 	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+
+		ExpressionArithmetique c = (RacineCarree) super.clone();
+
+		((RacineCarree) c).operande = operande.clone();
+
+		return c;
+	}
 }

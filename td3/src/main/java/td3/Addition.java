@@ -60,4 +60,15 @@ public class Addition extends OperationBinaire implements Commutable {
 	public String toString() {
 		return "(" + this.left + " + " + this.right + ")";
 	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+
+		ExpressionArithmetique c = (Addition) super.clone();
+
+		((Addition) c).left = left.clone();
+		((Addition) c).right = right.clone();
+
+		return c;
+	}
 }

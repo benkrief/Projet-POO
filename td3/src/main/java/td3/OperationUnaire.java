@@ -40,4 +40,14 @@ public abstract class OperationUnaire implements ExpressionArithmetique {
 
 		return res;
 	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+
+		ExpressionArithmetique c = (OperationUnaire) super.clone();
+
+		((OperationUnaire) c).operande = operande.clone();
+
+		return c;
+	}
 }

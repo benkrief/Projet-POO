@@ -37,4 +37,9 @@ public final class ConstanteEntiere implements ExpressionArithmetique {
 	public String toString() {
 		return Integer.toString(this.entier);
 	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+		return (ConstanteEntiere) super.clone();
+	}
 }

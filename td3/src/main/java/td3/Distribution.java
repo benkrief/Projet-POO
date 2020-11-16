@@ -111,4 +111,19 @@ public class Distribution extends OperationUnaire {
 		return ea instanceof Distribution 
 				&& ((Distribution) ea.simplifier()).operande.equals(((Distribution) simplifier()).operande);
 	}
+
+	@Override
+	public String toString() {
+		return "distribuer(" + this.operande + ")";
+	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+
+		ExpressionArithmetique c = (Distribution) super.clone();
+
+		((Distribution) c).operande = operande.clone();
+
+		return c;
+	}
 }

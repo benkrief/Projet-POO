@@ -82,4 +82,9 @@ public final class ConstanteRationnelle implements ExpressionArithmetique {
 	public String toString() {
 		return "(" + this.numerateur + "/" + this.denominateur + ")";
 	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+		return (ConstanteRationnelle) super.clone();
+	}
 }

@@ -63,4 +63,15 @@ public class Soustraction extends OperationBinaire {
 	public String toString() {
 		return "(" + this.left + " - " + this.right + ")";
 	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+
+		ExpressionArithmetique c = (Soustraction) super.clone();
+
+		((Soustraction) c).left = left.clone();
+		((Soustraction) c).right = right.clone();
+
+		return c;
+	}
 }

@@ -44,9 +44,13 @@ public class BigSomme implements ExpressionArithmetique {
 
 		ExpressionArithmetique bigSomme = new ConstanteEntiere(0);
 
-		for (int i = this.inf.getEntier(); i <= this.sup.getEntier(); i++) {
-			affectations.put(this.index, new ConstanteEntiere(i));
-			bigSomme = new Addition(bigSomme, this.ea.simplifier(affectations));
+		try {
+			for (int i = this.inf.getEntier(); i <= this.sup.getEntier(); i++) {
+				affectations.put(this.index, new ConstanteEntiere(i));
+				bigSomme = new Addition(bigSomme, this.ea.clone().simplifier(affectations));
+			}
+		} catch(CloneNotSupportedException e) {
+			throw new RuntimeException("Echec du clonage : impossible de simplifier BigSomme !");
 		}
 
 		return bigSomme.simplifier();
@@ -70,5 +74,18 @@ public class BigSomme implements ExpressionArithmetique {
 	@Override
 	public String toString() {
 		return this.sup + "Σ" + this.index.toString() + "=" + this.inf + " " + this.ea.toString();
+	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+
+		ExpressionArithmetique c = (BigSomme) super.clone();
+
+		((BigSomme) c).ea = ea.clone();
+		((BigSomme) c).index = (VariableSymbolique) index.clone();
+		((BigSomme) c).inf = (ConstanteEntiere) inf.clone();
+		((BigSomme) c).sup = (ConstanteEntiere) sup.clone();
+
+		return c;
 	}
 }

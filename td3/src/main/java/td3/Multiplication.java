@@ -81,4 +81,15 @@ public class Multiplication extends OperationBinaire implements Commutable {
 	public String toString() {
 		return "(" + this.left + " * " + this.right + ")";
 	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+
+		ExpressionArithmetique c = (Multiplication) super.clone();
+
+		((Multiplication) c).left = left.clone();
+		((Multiplication) c).right = right.clone();
+
+		return c;
+	}
 }

@@ -75,4 +75,15 @@ public abstract class OperationBinaire implements ExpressionArithmetique {
 
 		return res;
 	}
+
+	@Override
+	public ExpressionArithmetique clone() throws CloneNotSupportedException {
+
+		ExpressionArithmetique c = (OperationBinaire) super.clone();
+
+		((OperationBinaire) c).left = left.clone();
+		((OperationBinaire) c).right = right.clone();
+
+		return c;
+	}
 }
