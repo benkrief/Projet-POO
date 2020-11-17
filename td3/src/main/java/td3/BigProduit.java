@@ -3,13 +3,13 @@ package td3;
 import java.util.HashMap;
 import java.util.Map;
 
-public class BigSomme implements ExpressionArithmetique {
+public class BigProduit implements ExpressionArithmetique {
 	private ExpressionArithmetique ea;
 	private VariableSymbolique index;
 	private ConstanteEntiere inf;
 	private ConstanteEntiere sup;
 
-	public BigSomme(ExpressionArithmetique ea, VariableSymbolique index, ConstanteEntiere inf, ConstanteEntiere sup) {
+	public BigProduit(ExpressionArithmetique ea, VariableSymbolique index, ConstanteEntiere inf, ConstanteEntiere sup) {
 		this.ea = ea;
 		this.index = index;
 		this.inf = inf;
@@ -34,7 +34,7 @@ public class BigSomme implements ExpressionArithmetique {
 
 	@Override
 	public double calculer() {
-		throw new RuntimeException("Impossible de calculer une BigSomme !");
+		throw new RuntimeException("Impossible de calculer un BigProduit !");
 	}
 
 	@Override
@@ -42,18 +42,18 @@ public class BigSomme implements ExpressionArithmetique {
 
 		Map<ExpressionArithmetique, ExpressionArithmetique> affectations = new HashMap<>();
 
-		ExpressionArithmetique bigSomme = new ConstanteEntiere(0);
+		ExpressionArithmetique bigProduit = new ConstanteEntiere(1);
 
 		try {
 			for (int i = this.inf.getEntier(); i <= this.sup.getEntier(); i++) {
 				affectations.put(this.index, new ConstanteEntiere(i));
-				bigSomme = new Addition(bigSomme, this.ea.clone().simplifier(affectations));
+				bigProduit = new Multiplication(bigProduit, this.ea.clone().simplifier(affectations));
 			}
 		} catch(CloneNotSupportedException e) {
-			throw new RuntimeException("Echec du clonage : impossible de simplifier BigSomme !");
+			throw new RuntimeException("Echec du clonage : impossible de simplifier BigProduit !");
 		}
 
-		return bigSomme.simplifier();
+		return bigProduit.simplifier();
 	}
 
 	@Override
@@ -64,27 +64,27 @@ public class BigSomme implements ExpressionArithmetique {
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
 
-		return ea instanceof BigSomme 
-				&& ((BigSomme) ea).getExpression().equals(((BigSomme) simplifier()).ea)
-				&& ((BigSomme) ea).getIndex().equals(((BigSomme) simplifier()).index)
-				&& ((BigSomme) ea).getInf().equals(((BigSomme) simplifier()).inf)
-				&& ((BigSomme) ea).getSup().equals(((BigSomme) simplifier()).sup);
+		return ea instanceof BigProduit 
+				&& ((BigProduit) ea).getExpression().equals(((BigProduit) simplifier()).ea)
+				&& ((BigProduit) ea).getIndex().equals(((BigProduit) simplifier()).index)
+				&& ((BigProduit) ea).getInf().equals(((BigProduit) simplifier()).inf)
+				&& ((BigProduit) ea).getSup().equals(((BigProduit) simplifier()).sup);
 	}
 
 	@Override
 	public String toString() {
-		return this.sup + "Σ" + this.index.toString() + "=" + this.inf + " " + this.ea.toString();
+		return this.sup + "Π" + this.index.toString() + "=" + this.inf + " " + this.ea.toString();
 	}
 
 	@Override
 	public ExpressionArithmetique clone() throws CloneNotSupportedException {
 
-		ExpressionArithmetique c = (BigSomme) super.clone();
+		ExpressionArithmetique c = (BigProduit) super.clone();
 
-		((BigSomme) c).ea = ea.clone();
-		((BigSomme) c).index = (VariableSymbolique) index.clone();
-		((BigSomme) c).inf = (ConstanteEntiere) inf.clone();
-		((BigSomme) c).sup = (ConstanteEntiere) sup.clone();
+		((BigProduit) c).ea = ea.clone();
+		((BigProduit) c).index = (VariableSymbolique) index.clone();
+		((BigProduit) c).inf = (ConstanteEntiere) inf.clone();
+		((BigProduit) c).sup = (ConstanteEntiere) sup.clone();
 
 		return c;
 	}

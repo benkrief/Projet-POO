@@ -8,11 +8,13 @@ import java.util.Map;
 import org.junit.Test;
 
 import td3.Addition;
+import td3.BigProduit;
 import td3.BigSomme;
 import td3.ConstanteEntiere;
 import td3.ConstanteRationnelle;
 import td3.ConstanteSymbolique;
 import td3.Cosinus;
+import td3.Derivation;
 import td3.Distribution;
 import td3.Division;
 import td3.ExpressionArithmetique;
@@ -329,9 +331,13 @@ public class AppTest {
 	 * Question 11
 	 * 
 	 * Simplifier une BigSomme
+	 * 
+	 * Question 12
+	 * 
+	 * Simplifier un BigProduit
 	 */
 	@Test
-	public void simplifyBigSomme() {
+	public void simplifyBigSommeAndBigProduit() {
 
 		// bornes inférieures et supérieures
 
@@ -346,7 +352,7 @@ public class AppTest {
 		Map<ExpressionArithmetique, ExpressionArithmetique> affectations = new HashMap<>();
 		affectations.put(index, quatre);
 
-		//assertEquals("α4", alphai.simplifier(affectations).toString());
+		assertEquals("α4", alphai.simplifier(affectations).toString());
 
 		// puissance variable symbolique
 
@@ -361,7 +367,33 @@ public class AppTest {
 
 		ExpressionArithmetique bigSomme = new BigSomme(times, (VariableSymbolique) index, (ConstanteEntiere) zero, (ConstanteEntiere) quatre);
 
-		assertEquals("", bigSomme.simplifier().toString());
+		assertEquals("((((α0 + (α1 * x)) + (α2 * (x^2))) + (α3 * (x^3))) + (α4 * (x^4)))", bigSomme.simplifier().toString());
+
+		// BigProduit
+
+		ExpressionArithmetique bigProduit = new BigProduit(times, (VariableSymbolique) index, (ConstanteEntiere) zero, (ConstanteEntiere) quatre);
+
+		assertEquals("((((α0 * (α1 * x)) * (α2 * (x^2))) * (α3 * (x^3))) * (α4 * (x^4)))", bigProduit.simplifier().toString());
+	}
+
+	/**
+	 * Question 13
+	 * 
+	 * Dériver un polynôme
+	 */
+	@Test
+	public void derivativePolynome() {
+
+		ExpressionArithmetique trois = new ConstanteEntiere(3);
+		ExpressionArithmetique cinq = new ConstanteEntiere(5);
+		ExpressionArithmetique dix = new ConstanteEntiere(10);
+
+		ExpressionArithmetique[] coefficients = { trois, cinq, dix };
+		ExpressionArithmetique x = new VariableSymbolique('x');
+
+		ExpressionArithmetique derive = new Derivation(coefficients, (VariableSymbolique) x);
+
+		assertEquals("((6 * x) + 5)", derive.simplifier().toString());
 	}
 
 	/**
