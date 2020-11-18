@@ -2,8 +2,8 @@ package td3;
 
 public class Distribution extends OperationUnaire {
 
-	public Distribution(ExpressionArithmetique multi) {
-		super(multi);
+	public Distribution(ExpressionArithmetique op) {
+		super(op);
 	}
 
 	@Override
@@ -12,12 +12,12 @@ public class Distribution extends OperationUnaire {
 	}
 
 	@Override
-	protected ExpressionArithmetique simplifie(ExpressionArithmetique multi) {
+	protected ExpressionArithmetique simplifie(ExpressionArithmetique op) {
 
-		if (multi instanceof Multiplication) {
+		if (op instanceof Multiplication) {
 
-			ExpressionArithmetique gauche = ((Multiplication) multi).left;
-			ExpressionArithmetique droite = ((Multiplication) multi).right;
+			ExpressionArithmetique gauche = ((Multiplication) op).left;
+			ExpressionArithmetique droite = ((Multiplication) op).right;
 
 			if (gauche instanceof Addition && droite instanceof Addition) {
 

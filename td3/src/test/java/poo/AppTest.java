@@ -20,6 +20,7 @@ import td3.Division;
 import td3.ExpressionArithmetique;
 import td3.LogarithmeNeperien;
 import td3.Multiplication;
+import td3.Polynome;
 import td3.Puissance;
 import td3.RacineCarree;
 import td3.Sinus;
@@ -391,7 +392,14 @@ public class AppTest {
 		ExpressionArithmetique[] coefficients = { trois, cinq, dix };
 		ExpressionArithmetique x = new VariableSymbolique('x');
 
-		ExpressionArithmetique derive = new Derivation(coefficients, (VariableSymbolique) x);
+		ExpressionArithmetique polynome = new Polynome(coefficients, (VariableSymbolique) x);
+
+		Map<ExpressionArithmetique, ExpressionArithmetique> affectations = new HashMap<>();
+		affectations.put(x, trois);
+
+		assertEquals("52", ((Polynome) polynome).evaluer(affectations).toString());
+
+		ExpressionArithmetique derive = new Derivation(polynome);
 
 		assertEquals("((6 * x) + 5)", derive.simplifier().toString());
 	}

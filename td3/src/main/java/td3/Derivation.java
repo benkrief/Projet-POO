@@ -1,22 +1,9 @@
 package td3;
 
-import java.util.Map;
+public class Derivation extends OperationUnaire {
 
-public class Derivation implements ExpressionArithmetique {
-	private ExpressionArithmetique[] coefficients;
-	private VariableSymbolique x;
-
-	public Derivation(ExpressionArithmetique[] coeff, VariableSymbolique x) {
-		this.coefficients = coeff;
-		this.x = x;
-	}
-
-	public ExpressionArithmetique[] getCoefficients() {
-		return this.coefficients;
-	}
-
-	public ExpressionArithmetique getX() {
-		return this.x;
+	public Derivation(ExpressionArithmetique op) {
+		super(op);
 	}
 
 	@Override
@@ -25,44 +12,54 @@ public class Derivation implements ExpressionArithmetique {
 	}
 
 	@Override
-	public ExpressionArithmetique simplifier() {
+	protected ExpressionArithmetique simplifie(ExpressionArithmetique op) {
 
-		ExpressionArithmetique derive = new ConstanteEntiere(0);
+		if(op instanceof Polynome) {
 
-		for (int i = this.coefficients.length-2; i >= 0; i--) {
-			derive = new Addition(
-					new Multiplication(
-						new Multiplication(this.coefficients[i], new ConstanteEntiere(i)), 
-						new Puissance(this.x, new ConstanteEntiere(i-1))), 
-					derive);
+			ExpressionArithmetique[] coeff = ((Polynome) op).getCoefficients();
+
+			ExpressionArithmetique derive = new ConstanteEntiere(0);
+
+			for (int i = 0; i < coeff.length; i++) {
+				derive = new Addition(derive, new Multiplication(
+						new Multiplication(coeff[i], new ConstanteEntiere((coeff.length-1) - i)), 
+						new Puissance(((Polynome) op).getX(), new ConstanteEntiere((coeff.length-2) - i))));
+			}
+
+			return derive.simplifier();
 		}
 
-		return derive.simplifier();
-	}
-
-	@Override
-	public ExpressionArithmetique simplifier(Map<ExpressionArithmetique, ExpressionArithmetique> affectations) {
 		return this;
 	}
 
 	@Override
+	protected ExpressionArithmetique simplifie(ConstanteEntiere op) {
+		throw new RuntimeException("Impossible de dériver une constante entière !");
+	}
+
+	@Override
+	protected ExpressionArithmetique simplifie(ConstanteRationnelle op) {
+		throw new RuntimeException("Impossible de dériver une constante rationnelle !");
+	}
+
+	@Override
 	public boolean equals(ExpressionArithmetique ea) {
+		return ea instanceof Derivation 
+				&& ((Derivation) ea.simplifier()).operande.equals(((Derivation) simplifier()).operande);
+	}
 
-		if (((Derivation) ea).getCoefficients().length == this.coefficients.length) {
-			for (int i = 0; i < this.coefficients.length; i++) {
-				if (((Derivation) ea).getCoefficients()[i] != this.coefficients[i]) {
-					return false;
-				}
-			}
-
-			return ((Derivation) ea).getX().equals(this.x);
-		}
-
-		return false;
+	@Override
+	public String toString() {
+		return "dériver(" + this.operande + ")";
 	}
 
 	@Override
 	public ExpressionArithmetique clone() throws CloneNotSupportedException {
-		return (Derivation) super.clone();
+
+		ExpressionArithmetique c = (Derivation) super.clone();
+
+		((Derivation) c).operande = operande.clone();
+
+		return c;
 	}
 }
