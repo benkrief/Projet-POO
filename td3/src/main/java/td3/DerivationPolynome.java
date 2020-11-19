@@ -1,9 +1,11 @@
 package td3;
 
-public class Derivation extends OperationUnaire {
+public class DerivationPolynome extends OperationUnaire {
+	private ConstanteEntiere ordre;
 
-	public Derivation(ExpressionArithmetique op) {
+	public DerivationPolynome(ExpressionArithmetique op, ConstanteEntiere ordre) {
 		super(op);
+		this.ordre = ordre;
 	}
 
 	@Override
@@ -20,10 +22,22 @@ public class Derivation extends OperationUnaire {
 
 			ExpressionArithmetique derive = new ConstanteEntiere(0);
 
+			int currCoeff;
+			int degre;
+
 			for (int i = 0; i < coeff.length; i++) {
+
+				currCoeff = ((ConstanteEntiere) coeff[i]).getEntier();
+				degre = coeff.length-1 - i;
+
+				for (int j = 1; j <= this.ordre.getEntier(); j++) {
+					currCoeff *= degre;
+					degre--;
+				}
+
 				derive = new Addition(derive, new Multiplication(
-						new Multiplication(coeff[i], new ConstanteEntiere((coeff.length-1) - i)), 
-						new Puissance(((Polynome) op).getX(), new ConstanteEntiere((coeff.length-2) - i))));
+						new ConstanteEntiere(currCoeff), 
+						new Puissance(((Polynome) op).getX(), new ConstanteEntiere(degre))));
 			}
 
 			return derive.simplifier();
@@ -44,21 +58,23 @@ public class Derivation extends OperationUnaire {
 
 	@Override
 	public boolean equals(ExpressionArithmetique ea) {
-		return ea instanceof Derivation 
-				&& ((Derivation) ea.simplifier()).operande.equals(((Derivation) simplifier()).operande);
+		return ea instanceof DerivationPolynome 
+				&& ((DerivationPolynome) ea.simplifier()).operande.equals(((DerivationPolynome) simplifier()).operande)
+				&& ((DerivationPolynome) ea.simplifier()).ordre.equals(((DerivationPolynome) simplifier()).ordre);
 	}
 
 	@Override
 	public String toString() {
-		return "dériver(" + this.operande + ")";
+		return "dériver" + this.ordre + "(" + this.operande + ")";
 	}
 
 	@Override
 	public ExpressionArithmetique clone() throws CloneNotSupportedException {
 
-		ExpressionArithmetique c = (Derivation) super.clone();
+		ExpressionArithmetique c = (DerivationPolynome) super.clone();
 
-		((Derivation) c).operande = operande.clone();
+		((DerivationPolynome) c).operande = operande.clone();
+		((DerivationPolynome) c).ordre = (ConstanteEntiere) ordre.clone();
 
 		return c;
 	}

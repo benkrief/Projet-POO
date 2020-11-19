@@ -14,7 +14,7 @@ import td3.ConstanteEntiere;
 import td3.ConstanteRationnelle;
 import td3.ConstanteSymbolique;
 import td3.Cosinus;
-import td3.Derivation;
+import td3.DerivationPolynome;
 import td3.Distribution;
 import td3.Division;
 import td3.ExpressionArithmetique;
@@ -383,7 +383,9 @@ public class AppTest {
 	 * Dériver un polynôme
 	 */
 	@Test
-	public void derivativePolynome() {
+	public void derivatePolynomial() {
+
+		// dérivation de polynômes
 
 		ExpressionArithmetique trois = new ConstanteEntiere(3);
 		ExpressionArithmetique cinq = new ConstanteEntiere(5);
@@ -394,14 +396,30 @@ public class AppTest {
 
 		ExpressionArithmetique polynome = new Polynome(coefficients, (VariableSymbolique) x);
 
+		ExpressionArithmetique ordre = new ConstanteEntiere(1);
+		ExpressionArithmetique derive = new DerivationPolynome(polynome, (ConstanteEntiere) ordre);
+
+		assertEquals("((6 * x) + 5)", derive.simplifier().toString());
+
+		// évaluation de polynômes
+
 		Map<ExpressionArithmetique, ExpressionArithmetique> affectations = new HashMap<>();
 		affectations.put(x, trois);
 
 		assertEquals("52", ((Polynome) polynome).evaluer(affectations).toString());
 
-		ExpressionArithmetique derive = new Derivation(polynome);
+		// dérivation de polynômes à l'ordre n
 
-		assertEquals("((6 * x) + 5)", derive.simplifier().toString());
+		ExpressionArithmetique quatre = new ConstanteEntiere(4);
+
+		ExpressionArithmetique[] coefficientsN = { cinq, quatre, trois, cinq, dix };
+
+		ExpressionArithmetique polynomeN = new Polynome(coefficientsN, (VariableSymbolique) x);
+
+		ExpressionArithmetique ordreN = new ConstanteEntiere(3);
+		ExpressionArithmetique deriveN = new DerivationPolynome(polynomeN, (ConstanteEntiere) ordreN);
+
+		assertEquals("((120 * x) + 24)", deriveN.simplifier().toString());
 	}
 
 	/**
