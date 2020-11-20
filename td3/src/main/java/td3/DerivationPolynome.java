@@ -20,7 +20,7 @@ public class DerivationPolynome extends OperationUnaire {
 
 			ExpressionArithmetique[] coeff = ((Polynome) op).getCoefficients();
 
-			ExpressionArithmetique derive = new ConstanteEntiere(0);
+			ExpressionArithmetique derivee = new ConstanteEntiere(0);
 
 			int currCoeff;
 			int degre;
@@ -35,12 +35,12 @@ public class DerivationPolynome extends OperationUnaire {
 					degre--;
 				}
 
-				derive = new Addition(derive, new Multiplication(
+				derivee = new Addition(derivee, new Multiplication(
 						new ConstanteEntiere(currCoeff), 
 						new Puissance(((Polynome) op).getX(), new ConstanteEntiere(degre))));
 			}
 
-			return derive.simplifier();
+			return derivee.simplifier();
 		}
 
 		return this;
