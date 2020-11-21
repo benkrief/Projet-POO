@@ -477,6 +477,40 @@ public class AppTest {
 	}
 
 	/**
+	 * Question bonus 1
+	 * 
+	 * Simplifier une racine carrée lorsque son opérande est composé
+	 * d'un carré parfait
+	 * 
+	 * exemple : sqrt(12) = 2 * sqrt(3)
+	 */
+	@Test
+	public void simplifySqrt() {
+
+		ExpressionArithmetique douze = new ConstanteEntiere(12);
+		ExpressionArithmetique racine = new RacineCarree(douze);
+
+		assertEquals("(2 * sqrt(3))", racine.simplifier().toString());
+	}
+
+	/**
+	 * Question bonus 2
+	 * 
+	 * Simplifier un logarithme népérien lorsque son opérande est
+	 * le résultat d'une puissance
+	 * 
+	 * exemple : ln(8) = 3 * ln(2)
+	 */
+	@Test
+	public void simplifyLn() {
+
+		ExpressionArithmetique huit = new ConstanteEntiere(8);
+		ExpressionArithmetique ln = new LogarithmeNeperien(huit);
+
+		assertEquals("(3 * ln(2))", ln.simplifier().toString());
+	}
+
+	/**
 	 * Question bonus 3
 	 * 
 	 * Evaluer un polynôme
