@@ -9,6 +9,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import td3.Addition;
+import td3.Association;
 import td3.BigProduit;
 import td3.BigSomme;
 import td3.ConstanteEntiere;
@@ -477,6 +478,39 @@ public class AppTest {
 	}
 
 	/**
+	 * Question 17
+	 * 
+	 * Associativité des sommes et des multiplications
+	 */
+	@Test
+	public void associate() {
+
+		// addition
+
+		ExpressionArithmetique un = new ConstanteEntiere(1);
+		ExpressionArithmetique x = new VariableSymbolique('x');
+		ExpressionArithmetique plus = new Addition(un, x);
+
+		ExpressionArithmetique plusun = new Addition(un, plus);
+
+		ExpressionArithmetique associateplus = new Association(plusun);
+
+		assertEquals("(2 + x)", associateplus.simplifier().toString());
+
+		// multiplication
+
+		ExpressionArithmetique fraction = new ConstanteRationnelle(1, 2);
+		ExpressionArithmetique deux = new ConstanteEntiere(2);
+		ExpressionArithmetique times = new Multiplication(fraction, x);
+
+		ExpressionArithmetique timesdeux = new Multiplication(deux, times);
+
+		ExpressionArithmetique associatetimes = new Association(timesdeux);
+
+		assertEquals("x", associatetimes.simplifier().toString());
+	}
+
+	/**
 	 * Question bonus 1
 	 * 
 	 * Simplifier une racine carrée lorsque son opérande est composé
@@ -513,7 +547,7 @@ public class AppTest {
 	/**
 	 * Question bonus 3
 	 * 
-	 * Evaluer un polynôme
+	 * Evaluer un polynôme pour un x donné
 	 */
 	@Test
 	public void evaluatePolynomial() {

@@ -8,7 +8,7 @@ public class Distribution extends OperationUnaire {
 
 	@Override
 	public double calculer() {
-		return this.operande.calculer();
+		throw new RuntimeException("Impossible de calculer une distribution !");
 	}
 
 	@Override
