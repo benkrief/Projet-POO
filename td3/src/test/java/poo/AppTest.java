@@ -543,27 +543,4 @@ public class AppTest {
 
 		assertEquals("(3 * ln(2))", ln.simplifier().toString());
 	}
-
-	/**
-	 * Question bonus 3
-	 * 
-	 * Evaluer un polynôme pour un x donné
-	 */
-	@Test
-	public void evaluatePolynomial() {
-
-		ExpressionArithmetique trois = new ConstanteEntiere(3);
-		ExpressionArithmetique cinq = new ConstanteEntiere(5);
-		ExpressionArithmetique dix = new ConstanteEntiere(10);
-		ExpressionArithmetique[] coefficients = { trois, cinq, dix };
-
-		ExpressionArithmetique x = new VariableSymbolique('x');
-
-		ExpressionArithmetique polynome = new Polynome(coefficients, (VariableSymbolique) x);
-
-		Map<ExpressionArithmetique, ExpressionArithmetique> affectations = new HashMap<>();
-		affectations.put(x, trois);
-
-		assertEquals("52", ((Polynome) polynome).evaluer(affectations).toString());
-	}
 }
